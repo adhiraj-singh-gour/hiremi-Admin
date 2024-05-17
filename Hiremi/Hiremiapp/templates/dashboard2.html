@@ -1,0 +1,237 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://kit.fontawesome.com/861ce09321.js" crossorigin="anonymous"></script>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static "css/dashboard2.css" %}">
+</head>
+<body>
+    <header>
+        <h1>Hiremi  </h1>
+        <p>Super Admin</p>
+        <nav>
+            <ul>
+                <li></li>
+                <li><a href="#"><i class='bx bx-home-alt'></i> Dashboard</a></li>
+                <li><a href="#"><i class="fa-solid fa-chart-simple"></i> Analytics</a></li>
+                <li><a href="#"><i class="fa-solid fa-file-arrow-down"></i>  App Download Status</a></li>
+                <li><a href="#"><i class='bx bxs-graduation' ></i> Mentorship</a></li>
+                <li><a href="#"><i class="fa-solid fa-desktop"></i> Internship</a></li>
+                <li><a href="#"><i class="fa-solid fa-laptop-code"></i> Fresher</a></li>
+                <li><a href="#"><i class='bx bx-briefcase' ></i> Experience</a></li>
+                <li><a href="#"><i class="fa-solid fa-folder-tree"></i> Corporate Training</a></li>
+                <li><a href="#"><i class="fa-regular fa-file"></i> Courses</a></li>
+                <li><a href="#"><i class='bx bxs-report'></i> Project Report</a></li>
+                <li><a href="#"><i class="fa-regular fa-user"></i> Admin Settings</a></li>
+                <li><a href="{% url "superuser_logout" %}"><i class="fa-solid fa-arrow-right-from-bracket"></i> Logout</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="search">
+        <div class="sec-inp">
+            <div class="inp-bg">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" placeholder="Search">
+                <img src="../static/asset/logo.jpg" alt="">
+            </div>
+        </div>
+    </div>
+    <div class="list1">
+        <div class="list-type">
+            <table>
+                <thead>
+                    <tr>
+                        <th>S.NO</th>
+                        <th>UTR.No</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone No</th>
+                        <th>College Name</th>
+                        <th>Branch <span><></span></th>
+                        <th>Passing Year <span><></span></th>
+                        <th>College State <span><></span></th>
+                        <th>Birth Place State <span><></span></th>
+                        <th>Gender</th>
+                        <th>Status <span><></span></th>
+                        <th>View</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>1.</td>
+                        <td>58484556155</td>
+                        <td>Leo</td>
+                        <td>hiremi@gmail.com</td>
+                        <td>84515*****</td>
+                        <td>College Name</td>
+                        <td>Branch</td>
+                        <td>Passing year</td>
+                        <td>College State</td>
+                        <td>Birth Place State</td>
+                        <td>Male</td>
+                        <td><div class="ver1">Verified</div></td>
+                        <td><div class="view">View</div></td>
+                    </tr>
+                </tbody>
+                <tbody>
+                    <tr>
+                        <td>2.</td>
+                        <td>58484556155</td>
+                        <td>Leo</td>
+                        <td>hiremi@gmail.com</td>
+                        <td>84515*****</td>
+                        <td>College Name</td>
+                        <td>Branch</td>
+                        <td>Passing year</td>
+                        <td>College State</td>
+                        <td>Birth Place State</td>
+                        <td>Male</td>
+                        <td><div class="ver1">Verified</div></td>
+                        <td><div class="view">View</div></td>
+                    </tr>
+                </tbody>
+                <tbody>
+                    <tr>
+                        <td>3.</td>
+                        <td>8419574238</td>
+                        <td>Leo</td>
+                        <td>hiremi@gmail.com</td>
+                        <td>84515*****</td>
+                        <td>College Name</td>
+                        <td>Branch</td>
+                        <td>Passing year</td>
+                        <td>College State</td>
+                        <td>Birth Place State</td>
+                        <td>Male</td>
+                        <td><div class="ver1">Verified</div></td>
+                        <td><div class="view">View</div></td>
+                    </tr>
+                </tbody>
+                <tbody>
+                    <tr>
+                        <td>4.</td>
+                        <td>6115469713</td>
+                        <td>Leo</td>
+                        <td>hiremi@gmail.com</td>
+                        <td>84515*****</td>
+                        <td>College Name</td>
+                        <td>Branch</td>
+                        <td>Passing year</td>
+                        <td>College State</td>
+                        <td>Birth Place State</td>
+                        <td>Male</td>
+                        <td><div class="ver1">Verified</div></td>
+                        <td><div class="view">View</div></td>
+                    </tr>
+                </tbody>
+                <tbody>
+                    <tr>
+                        <td>5.</td>
+                        <td>2358455879</td>
+                        <td>Leo</td>
+                        <td>hiremi@gmail.com</td>
+                        <td>84515*****</td>
+                        <td>College Name</td>
+                        <td>Branch</td>
+                        <td>Passing year</td>
+                        <td>College State</td>
+                        <td>Birth Place State</td>
+                        <td>Male</td>
+                        <td><div class="ver1">Verified</div></td>
+                        <td><div class="view">View</div></td>
+                    </tr>
+                </tbody>
+                <tbody>
+                    <tr>
+                        <td>6.</td>
+                        <td>58484556155</td>
+                        <td>Leo</td>
+                        <td>hiremi@gmail.com</td>
+                        <td>84515*****</td>
+                        <td>College Name</td>
+                        <td>Branch</td>
+                        <td>Passing year</td>
+                        <td>College State</td>
+                        <td>Birth Place State</td>
+                        <td>Male</td>
+                        <td><div class="ver1">Verified</div></td>
+                        <td><div class="view">View</div></td>
+                    </tr>
+                </tbody>
+                <tbody>
+                    <tr>
+                        <td>7.</td>
+                        <td>558794359</td>
+                        <td>Leo</td>
+                        <td>hiremi@gmail.com</td>
+                        <td>84515*****</td>
+                        <td>College Name</td>
+                        <td>Branch</td>
+                        <td>Passing year</td>
+                        <td>College State</td>
+                        <td>Birth Place State</td>
+                        <td>Male</td>
+                        <td><div class="ver1">Verified</div></td>
+                        <td><div class="view">View</div></td>
+                    </tr>
+                </tbody>
+                <tbody>
+                    <tr>
+                        <td>8.</td>
+                        <td>58484556155</td>
+                        <td>Leo</td>
+                        <td>hiremi@gmail.com</td>
+                        <td>84515*****</td>
+                        <td>College Name</td>
+                        <td>Branch</td>
+                        <td>Passing year</td>
+                        <td>College State</td>
+                        <td>Birth Place State</td>
+                        <td>Male</td>
+                        <td><div class="ver1">Verified</div></td>
+                        <td><div class="view">View</div></td>
+                    </tr>
+                </tbody>
+                <tbody>
+                    <tr>
+                        <td>9.</td>
+                        <td>4497856274</td>
+                        <td>Leo</td>
+                        <td>hiremi@gmail.com</td>
+                        <td>84515*****</td>
+                        <td>College Name</td>
+                        <td>Branch</td>
+                        <td>Passing year</td>
+                        <td>College State</td>
+                        <td>Birth Place State</td>
+                        <td>Male</td>
+                        <td><div class="ver1">Verified</div></td>
+                        <td><div class="view">View</div></td>
+                    </tr>
+                </tbody>
+                <tbody>
+                    <tr>
+                        <td>10.</td>
+                        <td>58484556155</td>
+                        <td>Leo</td>
+                        <td>hiremi@gmail.com</td>
+                        <td>84515*****</td>
+                        <td>College Name</td>
+                        <td>Branch</td>
+                        <td>Passing year</td>
+                        <td>College State</td>
+                        <td>Birth Place State</td>
+                        <td>Male</td>
+                        <td><div class="ver1">Verified</div></td>
+                        <td><div class="view">View</div></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
