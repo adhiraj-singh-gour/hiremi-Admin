@@ -4,6 +4,7 @@ from django.contrib.auth import  login,authenticate,logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 import requests
+from datetime import datetime
 
 # Create your views here.
 
@@ -34,31 +35,53 @@ def superuser_logout(request):
 def dashboard(request):
     data = requests.get('http://13.127.81.177:8000/api/registers/').json()
     user_count = len(data)
-    print(data)
+    # print(data)
 
     data1 = requests.get('http://13.127.81.177:8000/transactions/').json()
     payment_count = len(data1)
-    print(data1)
-
-    # verified_users_endpoint = 'http://13.127.81.177:8000/api/registers/?verified=true'
-    verified_users_endpoint = 'http://13.127.81.177:8000/api/registers/?verified=true'
     
-    try:
-        verified_users_response = requests.get(verified_users_endpoint)
-        verified_users_response.raise_for_status()  # Raises an HTTPError if the response was an HTTP error
-        verified_users = verified_users_response.json()
-        verified_count = len(verified_users)
-    except requests.RequestException as e:
-        # Handle the case where the request to the API fails
-        print(f"Error fetching verified users: {e}")
-        verified_count = None
+    # print(verified_users_endpoint)
+
+
+    url = 'http://13.127.81.177:8000/api/registers/'
+
+
+    # Make a GET request to the API endpoint
+    response = requests.get(url)
+    response.raise_for_status()  # Check for request errors
+
+    # Parse the JSON response
+    data = response.json()
+
+    # Initialize a counter for verified registrations
+    verified_count = 0
+
+    # Iterate through the registrations and count verified ones
+    for registration in data:
+        if registration.get('verified') == True:
+            verified_count += 1
+
+    # Print the count of verified registrations
+    print(f'Number of verified registrations: {verified_count}')
+    
+    
+    # try:
+    #     # verified_users_response = requests.get(verified_users_endpoint)
+    #     # print(verified_users_response)
+    #     # verified_users_response.raise_for_status()  # Raises an HTTPError if the response was an HTTP error
+    #     # verified_users = verified_users_response.json()
+    #     # verified_count = len(verified_users)
+    # except requests.RequestException as e:
+    #     # Handle the case where the request to the API fails
+    #     print(f"Error fetching verified users: {e}")
+    #     verified_count = None
 
 
 
     unverified_users_endpoint = 'http://13.127.81.177:8000/api/registers/?verified=false'
     
     try:
-        unverified_users_response = requests.get(unverified_users_endpoint)
+        unverified_users_response = requests.patch(unverified_users_endpoint)
         unverified_users_response.raise_for_status()  # Raises an HTTPError if the response was an HTTP error
         unverified_users = unverified_users_response.json()
         unverified_count = len(unverified_users)
@@ -122,12 +145,11 @@ def accept(request, pk):
     else:
         return JsonResponse({'error': 'Failed to update user verification status'}, status=response.status_code)
     
-
 def reject(request, pk):
     update_endpoint = f'http://13.127.81.177:8000/api/registers/{pk}/'
 
     update_data = {
-        'verified': False, 
+        'verified': False,    
     }
     response = requests.patch(update_endpoint, json=update_data)
     if response.status_code == 200:
@@ -152,8 +174,6 @@ def count_verified_accounts(request):
 
 
 
-
-
 # --------------------------------------internship section--------------------------------------------
 
 
@@ -163,9 +183,22 @@ def internship(request):
     print(data)
     return render(request,'internship.html',{'intern_count':intern_count})
 
+
 def intern_applied(request):
-    data=requests.get('http://13.127.81.177:8000/api/registers/').json()
-    return render(request,'Intern-Applied.html',{'data':data})
+    internship_response = requests.get('http://13.127.81.177:8000/api/internship/')
+    internship_data = internship_response.json()
+    internship_field = internship_data[1].get('Internship_profile')
+    
+    registers_response = requests.get('http://13.127.81.177:8000/api/registers/')
+    registers_data = registers_response.json()
+    
+    context = {
+        'internship_field': internship_field,
+        'registers_data': registers_data,
+    }
+    return render(request,'Intern-Applied.html',context)
+
+
 
 def intern_info(request,pk):
     print(pk)
@@ -187,47 +220,64 @@ def select(request, pk):
         return JsonResponse({'error': 'Failed to update user verification status'}, status=response.status_code)
     
 
-def reject(request, pk):
-    update_endpoint = f'http://13.127.81.177:8000/api/registers/{pk}/'
+# def reject(request, pk):
+#     update_endpoint = f'http://13.127.81.177:8000/api/registers/{pk}/'
 
-    update_data = {
-        'candidate_status':reject 
-    }
-    response = requests.patch(update_endpoint, json=update_data)
-    if response.status_code == 200:
-        return JsonResponse({'message': 'User verification status updated successfully'})
-    else:
-        return JsonResponse({'error': 'Failed to update user verification status'}, status=response.status_code)
+#     update_data = {
+#         'candidate_status':reject 
+#     }
+#     response = requests.patch(update_endpoint, json=update_data)
+#     if response.status_code == 200:
+#         return JsonResponse({'message': 'User verification status updated successfully'})
+#     else:
+#         return JsonResponse({'error': 'Failed to update user verification status'}, status=response.status_code)
 
 # ----------------------------------------------------------------------------------------------------
+
+
 
 # ---------------------------------Mantoreship section-------------------------------------------------
 
 
+def mentoreship(request):
+    data=requests.get('http://13.127.81.177:8000/api/mentoreship/').json()
+    mentoreship_count=len(data)
+    print(data)
+    return render(request,'mentoreship.html',{'mentoreship_count':mentoreship_count})
 
 
-# def dashboard3(request):
-#      # Fetch data from the APIs
-#     users = requests.get('http://13.127.81.177:8000/api/registers/').json()
-#     transactions = requests.get('http://13.127.81.177:8000/transactions/').json()
 
-#     # Create a combined data structure
-#     combined_data = []
-#     for transaction in transactions:
-#         # Find the corresponding user for each transaction
-#         user = next((user for user in users if user['id'] == transaction['user_id']), None)
-#         if user:
-#             combined_data.append({
-#                 'transaction_id': transaction['id'],
-#                 'amount': transaction['amount'],
-#                 'date': transaction['date'],
-#                 'username': user['username'],
-#                 'email': user['email']
-#             })
 
-#     # Pass the combined data to the template
-#     context = {
-#         'combined_data': combined_data
-#     }
-#     return render(request, 'dashboard3.html', context)
 
+# -----------------------------------------------------------------------------------------------------
+
+
+
+
+# -------------------------------------fresher section--------------------------------------------------
+
+def fresher(request):
+    data=requests.get('http://13.127.81.177:8000/api/fresher/').json()
+    fresher_count=len(data)
+    print(data)
+    return render(request,'fresher.html',{'fresher_count':fresher_count})
+
+
+
+
+# -----------------------------------------------------------------------------------------------------
+
+
+
+# -------------------------------------corporate training------------------------------------------------
+
+def corporate_training(request):
+    data=requests.get('http://13.127.81.177:8000/api/corporate_training/').json()
+    corporate_training_count=len(data)
+    print(data)
+    return render(request,'corporate-training.html',{'corporate_training_count':corporate_training_count})
+
+
+
+
+# ----------------------------------------------------------------------------------------------------------
