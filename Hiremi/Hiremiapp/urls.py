@@ -22,7 +22,7 @@ urlpatterns = [
    path('intern_applied/',intern_applied,name='intern_applied'),
    path('intern_info/<int:pk>/',intern_info,name='intern_info'),
    
-   # path('select/<int:pk>/',select,name="select"),
+   path('select/<int:pk>/',select,name="select"),
    # path('intern_Info1/<int:pk>/select/', select, name='select'),
    # path('intern_Info1/<int:pk>/reject/', reject, name='reject'),
 

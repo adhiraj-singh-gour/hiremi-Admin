@@ -45,7 +45,6 @@ def dashboard(request):
 
     url = 'http://13.127.81.177:8000/api/registers/'
 
-
     # Make a GET request to the API endpoint
     response = requests.get(url)
     response.raise_for_status()  # Check for request errors
@@ -65,37 +64,46 @@ def dashboard(request):
     print(f'Number of verified registrations: {verified_count}')
     
     
+    # unverified_users_endpoint = 'http://13.127.81.177:8000/api/registers/?verified=false'
+    
     # try:
-    #     # verified_users_response = requests.get(verified_users_endpoint)
-    #     # print(verified_users_response)
-    #     # verified_users_response.raise_for_status()  # Raises an HTTPError if the response was an HTTP error
-    #     # verified_users = verified_users_response.json()
-    #     # verified_count = len(verified_users)
+    #     unverified_users_response = requests.patch(unverified_users_endpoint)
+    #     unverified_users_response.raise_for_status()  # Raises an HTTPError if the response was an HTTP error
+    #     unverified_users = unverified_users_response.json()
+    #     unverified_count = len(unverified_users)
     # except requests.RequestException as e:
     #     # Handle the case where the request to the API fails
-    #     print(f"Error fetching verified users: {e}")
-    #     verified_count = None
+    #     print(f"Error fetching unverified users: {e}")
+    #     unverified_count = None   
 
 
 
-    unverified_users_endpoint = 'http://13.127.81.177:8000/api/registers/?verified=false'
-    
-    try:
-        unverified_users_response = requests.patch(unverified_users_endpoint)
-        unverified_users_response.raise_for_status()  # Raises an HTTPError if the response was an HTTP error
-        unverified_users = unverified_users_response.json()
-        unverified_count = len(unverified_users)
-    except requests.RequestException as e:
-        # Handle the case where the request to the API fails
-        print(f"Error fetching unverified users: {e}")
-        unverified_count = None    
+    # url = 'http://13.127.81.177:8000/api/registers/'
+
+    # # Make a GET request to the API endpoint
+    # response = requests.get(url)
+    # response.raise_for_status()  # Check for request errors
+
+    # # Parse the JSON response
+    # data = response.json()
+
+    # # Initialize a counter for verified registrations
+    # unverified_count = 0
+
+    # # Iterate through the registrations and count verified ones
+    # for registration in data:
+    #     if registration.get('verified') == False:
+    #         verified_count += 1
+
+    # # Print the count of verified registrations
+    # print(f'Number of verified registrations: {unverified_count}')
         
 
     context = {
         'user_count': user_count,
         'payment_count': payment_count,
         'verified_count': verified_count,
-        'unverified_count': unverified_count,
+        # 'unverified_count': unverified_count,
     }
     return render(request, 'dashboard.html', context)
 
@@ -185,15 +193,28 @@ def internship(request):
 
 
 def intern_applied(request):
-    internship_response = requests.get('http://13.127.81.177:8000/api/internship/')
-    internship_data = internship_response.json()
-    internship_field = internship_data[1].get('Internship_profile')
+    # internship_response = requests.get('http://13.127.81.177:8000/api/internship/')
+    # internship_data = internship_response.json()
+    # internship_field = internship_data[1].get('Internship_profile')
+
+    # internship_response = requests.get('http://13.127.81.177:8000/api/internship/')
     
+    # # Parse the JSON response
+    # internship_data = internship_response.json()
+    
+    # # Extract the Internship_profile from each internship entry
+    # internship_profiles = [internship.get('Internship_profile') for internship in internship_data]
+
+    
+   
+    
+    
+
     registers_response = requests.get('http://13.127.81.177:8000/api/registers/')
     registers_data = registers_response.json()
     
     context = {
-        'internship_field': internship_field,
+        'internship_profiles': internship_profiles,
         'registers_data': registers_data,
     }
     return render(request,'Intern-Applied.html',context)
