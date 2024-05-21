@@ -134,6 +134,10 @@ header nav a {
     color: white;
     background: linear-gradient(200deg,  green , rgba(0, 0, 0, 0.845));
 }
+.status .ver2 a{
+    color: white;
+    text-decoration: none;
+}
 .status .ver3{
     border-radius: 20px;
     padding: 4px 10px;
@@ -141,6 +145,10 @@ header nav a {
     border: none;
     color: white;
     background: linear-gradient(200deg,  red , rgba(0, 0, 0, 0.845));
+}
+.status .ver3 a{
+    color: white;
+    text-decoration: none; 
 }
 .profile{
     display: flex;

@@ -7,7 +7,7 @@
     <script src="https://kit.fontawesome.com/861ce09321.js" crossorigin="anonymous"></script>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <title>Document</title>
-    <link rel="stylesheet" href="{% static "css/dashboard1.css" %}">
+    <link rel="stylesheet" href="{% static "css/mentor-dash1.css" %}">
 </head>
 <body>
     <header>
@@ -46,16 +46,8 @@
                 <thead>
                     <tr>
                         <th>S.NO</th>
-                        <th>UTR.No</th>
-                        <th>Name</th>
+                        <th>UID.No</th>
                         <th>Email</th>
-                        <th>Phone No</th>
-                        <th>College Name</th>
-                        <th>Branch <span><></span></th>
-                        <th>Passing Year <span><></span></th>
-                        <th>College State <span><></span></th>
-                        <th>Birth Place State <span><></span></th>
-                        <th>Gender</th>
                         <th>Status <span><></span></th>
                         <th>View</th>
                     </tr>
@@ -64,22 +56,14 @@
                     {% for i in data %}
                     <tr>
                         <td>{{forloop.counter}}</td>
-                        <td>********</td>
-                        <td>{{i.full_name}}</td>
+                        <td>{{i.uid}}</td>
                         <td>{{i.email}} </td>
-                        <td>{{i.phone_number}} </td>
-                        <td>{{i.college_name}} </td>
-                        <td>{{i.branch_name}}</td>
-                        <td>{{i.passing_year}}</td> 
-                        <td>{{i.college_state}} </td>
-                        <td>{{i.date_of_birth}} </td>
-                        <td>{{i.gender}} </td>
-                        <td><div class="ver2">Verified</div></td>
-                        <td><div class="view"><a href="{% url "view_Info2" pk=i.id %}">View</a></div></td>
+                        <td><div class="ver2">{{i.applied}}</div></td>
+                        <td><div class="ver2">{{i.candidate_status}}</div></td>
+                        <td><div class="view"><a href="{% url "corporate_info1" pk=i.id %}">View</a></div></td>
                     </tr>
                     {% endfor %}
                   </tbody>
-                
             </table>
         </div>
     </div>

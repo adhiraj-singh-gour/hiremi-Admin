@@ -11,16 +11,16 @@
 </head>
 <body>
     <header>
-        <h1><img src="../static/asset/icon.png" alt=""></h1>
+        <h1><img src="{% static "asset/icon.png" %}" alt=""></h1>
         <p>Super Admin</p>
         <nav>
             <ul>
                 <li></li>
-                <li><a href="/dashboard"><i class='bx bx-home-alt'></i> Dashboard</a></li>
+                <li><a href="{% url "dashboard" %}"><i class='bx bx-home-alt'></i> Dashboard</a></li>
                 <li><a href="#"><i class="fa-solid fa-chart-simple"></i> Analytics</a></li>
                 <li><a href="#"><i class="fa-solid fa-file-arrow-down"></i>  App Download Status</a></li>
-                <li><a href="/Mentoreship"><i class='bx bxs-graduation' ></i> Mentorship</a></li>
-                <li><a href=".internship"><i class="fa-solid fa-desktop"></i> Internship</a></li>
+                <li><a href="{% url "Mentoreship" %}"><i class='bx bxs-graduation' ></i> Mentorship</a></li>
+                <li><a href="{% url "internship" %}"><i class="fa-solid fa-desktop"></i> Internship</a></li>
                 <li><a href="{% url "fresher" %}"><i class="fa-solid fa-laptop-code"></i> Fresher</a></li>
                 <li><a href="#"><i class='bx bx-briefcase' ></i> Experience</a></li>
                 <li><a href="{% url "corporate_training" %}"><i class="fa-solid fa-folder-tree"></i> Corporate Training</a></li>
@@ -56,8 +56,8 @@
                 </div>
                 <div class="status">
                     <h3>Status :</h3> <p class="ver1">{{data.candidate_status}}</p>
-                    <p class="ver2"><a href="{% url "accept" pk=data.id %}">Accepted</a></p>
-                    <p class="ver3"><a href="{% url "reject" pk=data.id %}">Rejected</a></p>
+                    {% comment %} <p class="ver2"><a href="{% url "Select" pk=data.id %}">Select</a></p>
+                    <p class="ver3"><a href="{% url "Reject" pk=data.id %}">Rejected</a></p> {% endcomment %}
                 </div>
             </div>
             <div class="pf-2">

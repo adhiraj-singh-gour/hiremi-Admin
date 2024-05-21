@@ -33,114 +33,151 @@ def superuser_logout(request):
 # --------------------------------------------------------------------------------------------
 
 def dashboard(request):
-    data = requests.get('http://13.127.81.177:8000/api/registers/').json()
+    states_list = [
+        'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh', 'Goa', 'Gujarat',
+        'Haryana', 'Himachal Pradesh', 'Jharkhand', 'Karnataka', 'Kerala', 'Madhya Pradesh', 'Maharashtra',
+        'Manipur', 'Meghalaya', 'Mizoram', 'Nagaland', 'Odisha', 'Punjab', 'Rajasthan', 'Sikkim', 'Tamil Nadu',
+        'Telangana', 'Tripura', 'Uttar Pradesh', 'Uttarakhand', 'West Bengal', 'Jammu and Kashmir'
+    ]
+    state_counts = {state: {'total': 0, 'verified': 0, 'unverified': 0} for state in states_list}
+
+    # Fetch data from the registrations API
+    registrations_url = 'http://13.127.81.177:8000/api/registers/'
+    data = requests.get(registrations_url).json()
     user_count = len(data)
-    # print(data)
 
-    data1 = requests.get('http://13.127.81.177:8000/transactions/').json()
-    payment_count = len(data1)
-    
-    # print(verified_users_endpoint)
+    # Fetch data from the transactions API
+    transactions_url = 'http://13.127.81.177:8000/transactions/'
+    response = requests.get(transactions_url)
+
+    if response.status_code == 200:
+        data1 = response.json()
+        verified_data = [entry for entry in data1 if entry.get('is_paid') == True]
+        payment_count = len(verified_data)
+
+    # Update the state counts based on the registrations
+    for registration in data:
+        college_state = registration.get('college_state')
+        if college_state in state_counts:
+            state_counts[college_state]['total'] += 1
+            if registration.get('verified'):
+                state_counts[college_state]['verified'] += 1
+            else:
+                state_counts[college_state]['unverified'] += 1
 
 
+# --------------count the total verified ----------------------
     url = 'http://13.127.81.177:8000/api/registers/'
 
-    # Make a GET request to the API endpoint
     response = requests.get(url)
-    response.raise_for_status()  # Check for request errors
-
-    # Parse the JSON response
+    response.raise_for_status()  
     data = response.json()
-
-    # Initialize a counter for verified registrations
     verified_count = 0
-
-    # Iterate through the registrations and count verified ones
     for registration in data:
         if registration.get('verified') == True:
             verified_count += 1
-
-    # Print the count of verified registrations
     print(f'Number of verified registrations: {verified_count}')
-    
-    
-    # unverified_users_endpoint = 'http://13.127.81.177:8000/api/registers/?verified=false'
-    
-    # try:
-    #     unverified_users_response = requests.patch(unverified_users_endpoint)
-    #     unverified_users_response.raise_for_status()  # Raises an HTTPError if the response was an HTTP error
-    #     unverified_users = unverified_users_response.json()
-    #     unverified_count = len(unverified_users)
-    # except requests.RequestException as e:
-    #     # Handle the case where the request to the API fails
-    #     print(f"Error fetching unverified users: {e}")
-    #     unverified_count = None   
 
-
-
-    # url = 'http://13.127.81.177:8000/api/registers/'
-
-    # # Make a GET request to the API endpoint
-    # response = requests.get(url)
-    # response.raise_for_status()  # Check for request errors
-
-    # # Parse the JSON response
-    # data = response.json()
-
-    # # Initialize a counter for verified registrations
-    # unverified_count = 0
-
-    # # Iterate through the registrations and count verified ones
-    # for registration in data:
-    #     if registration.get('verified') == False:
-    #         verified_count += 1
-
-    # # Print the count of verified registrations
-    # print(f'Number of verified registrations: {unverified_count}')
-        
+# -------------- count the total unverified----------------------
+    url = 'http://13.127.81.177:8000/api/registers/'
+    response = requests.get(url)
+    response.raise_for_status()  
+    data = response.json()
+    unverified_count = 0
+    for registration in data:
+        if registration.get('verified') == False:
+            unverified_count += 1
+    print(f'Number of verified registrations: {verified_count}')
 
     context = {
         'user_count': user_count,
         'payment_count': payment_count,
+        'unverified_count': unverified_count,
         'verified_count': verified_count,
-        # 'unverified_count': unverified_count,
+        'state_counts': state_counts,
     }
     return render(request, 'dashboard.html', context)
 
-
+# --------------------------- Dashboard1 ----------------------------------
 def dashboard1(request):
     data=requests.get('http://13.127.81.177:8000/api/registers/').json()
     return render(request,'dashboard1.html',{'data':data})
 
+def view_Info1(request,pk):
+     print(pk)
+     data=requests.get(f'http://13.127.81.177:8000/api/registers/{pk}/').json()
+     return render(request,'Profile-1.html',{'data':data})
 
-def view_Info(request,pk):
+
+# ------------------------------ Dashboard2 ----------------------------------
+def dashboard2(request):
+    url = 'http://13.127.81.177:8000/api/registers/'
+    response = requests.get(url)
+
+    if response.status_code == 200:
+        data = response.json()
+        verified_data = [entry for entry in data if entry.get('verified') == True]
+        context = {'data': verified_data}    
+    else:
+        context = {'data': [], 'error': 'Failed to retrieve data from the API'}
+
+    return render(request, 'dashboard2.html', context)
+
+def view_Info2(request,pk):
     print(pk)
     data=requests.get(f'http://13.127.81.177:8000/api/registers/{pk}/').json()
-    return render(request,'profile-1.html',{'data':data})
+    return render(request,'Profile-1.html',{'data':data})
 
 
-# -------------------------------------------------------------------------------------------------------
 
+# ------------------------------- Dashboard3 -----------------------------------
 def dashboard3(request):
     data=requests.get('http://13.127.81.177:8000/api/registers/').json()
-
-    data1 = requests.get('http://13.127.81.177:8000/transactions/').json()
-    context = {
+    
+    url = 'http://13.127.81.177:8000/transactions/'
+    response = requests.get(url)
+    
+    if response.status_code == 200:
+        data1 = response.json()
+        verified_data = [entry for entry in data1 if entry.get('is_paid') == True]
+        context = {
         'user_count': data,
-        'transctions': data1
-    }
-   
+        'transactions': verified_data
+        }
+    
+    else:
+        context = {'data': [], 'error': 'Failed to retrieve data from the API'}
+
     return render(request,'dashboard3.html',context)
 
-
-def view_Info1(request,pk):
+def view_Info3(request,pk):
     print(pk)
     data=requests.get(f'http://13.127.81.177:8000/api/registers/{pk}/').json()
     return render(request,'profile-2.html',{'data':data})
 
+# -------------------------------- Dashboard4 ---------------------------------------
+def dashboard4(request):
+    url = 'http://13.127.81.177:8000/api/registers/'
+    response = requests.get(url)
+    
+    if response.status_code == 200:
+        data = response.json()
+        verified_data = [entry for entry in data if entry.get('verified') == False]
+        context = {'data': verified_data}
+        print(context)
+        
+    else:
+        context = {'data': [], 'error': 'Failed to retrieve data from the API'}
+
+    return render(request, 'dashboard4.html', context)
+
+def view_Info4(request,pk):
+    print(pk)
+    data=requests.get(f'http://13.127.81.177:8000/api/registers/{pk}/').json()
+    return render(request,'Profile-1.html',{'data':data})
 
 
-
+# ----------------------------- Verification Button ---------------------------------
 def accept(request, pk):
     update_endpoint = f'http://13.127.81.177:8000/api/registers/{pk}/'
 
@@ -149,7 +186,7 @@ def accept(request, pk):
     }
     response = requests.patch(update_endpoint, json=update_data)
     if response.status_code == 200:
-        return JsonResponse({'message': 'User verification status updated successfully'})
+        return redirect('view_Info1',pk)
     else:
         return JsonResponse({'error': 'Failed to update user verification status'}, status=response.status_code)
     
@@ -161,24 +198,12 @@ def reject(request, pk):
     }
     response = requests.patch(update_endpoint, json=update_data)
     if response.status_code == 200:
-        return JsonResponse({'message': 'User verification status updated successfully'})
+        return redirect('view_Info1',pk)
     else:
         return JsonResponse({'error': 'Failed to update user verification status'}, status=response.status_code)
 
 
 
-
-def count_verified_accounts(request):
-    # Endpoint to get all verified users
-    verified_users_endpoint = 'http://13.127.81.177:8000/api/registers/?verified=true'
-    response = requests.get(verified_users_endpoint)
-    
-    if response.status_code == 200:
-        verified_users = response.json()
-        verified_count = len(verified_users)
-        return render(request, 'dashboard.html', {'verified_count': verified_count})
-    else:
-        return JsonResponse({'error': 'Failed to retrieve verified users count'}, status=response.status_code)
 
 
 
@@ -186,30 +211,64 @@ def count_verified_accounts(request):
 
 
 def internship(request):
-    data=requests.get('http://13.127.81.177:8000/api/internship/').json()
+    data=requests.get('http://13.127.81.177:8000/api/internship-applications/').json()
     intern_count=len(data)
     print(data)
-    return render(request,'internship.html',{'intern_count':intern_count})
+
+
+    
+# --------------count the total verified ----------------------
+    url = 'http://13.127.81.177:8000/api/internship-applications/'
+
+    response = requests.get(url)
+    response.raise_for_status()  
+    data = response.json()
+    Select_count = 0
+    for internship in data:
+        if internship.get('candidate_status') == 'Accept':
+            Select_count += 1
+    print(f'Number of verified registrations: {Select_count}')
+
+# -------------- count the total unverified----------------------
+    url = 'http://13.127.81.177:8000/api/internship-applications/'
+    response = requests.get(url)
+    response.raise_for_status()  
+    data = response.json()
+    Reject_count = 0
+    for internship in data:
+        if internship.get('candidate_status') == 'Reject':
+            Reject_count += 1
+    print(f'Number of verified registrations: {Reject_count}')
+
+ # --------------Count the total Pending ----------------------
+    url = 'http://13.127.81.177:8000/api/internship-applications/'
+    print(Select_count,Reject_count,intern_count)
+    Pending_count= intern_count - (Select_count + Reject_count)
+    print(f'Number of Pending Candidate: {Pending_count}')
+    
+    context={
+        'intern_count': intern_count,
+        'Select_count': Select_count,
+        'Reject_count': Reject_count,
+        'Pending_count': Pending_count,
+    }
+    return render(request,'internship.html',context)
 
 
 def intern_applied(request):
-    # internship_response = requests.get('http://13.127.81.177:8000/api/internship/')
-    # internship_data = internship_response.json()
-    # internship_field = internship_data[1].get('Internship_profile')
+    internship_response = requests.get('http://13.127.81.177:8000/api/internship-applications/')
+    internship_data = internship_response.json()
+    internship_field = internship_data[1].get('Internship_profile')
 
-    # internship_response = requests.get('http://13.127.81.177:8000/api/internship/')
+    internship_response = requests.get('http://13.127.81.177:8000/api/internship-applications/')
     
-    # # Parse the JSON response
-    # internship_data = internship_response.json()
+    # Parse the JSON response
+    internship_data = internship_response.json()
     
-    # # Extract the Internship_profile from each internship entry
-    # internship_profiles = [internship.get('Internship_profile') for internship in internship_data]
+    # Extract the Internship_profile from each internship entry
+    internship_profiles = [internship.get('Internship_profile') for internship in internship_data]
 
     
-   
-    
-    
-
     registers_response = requests.get('http://13.127.81.177:8000/api/registers/')
     registers_data = registers_response.json()
     
@@ -223,36 +282,39 @@ def intern_applied(request):
 
 def intern_info(request,pk):
     print(pk)
-    data=requests.get(f'http://13.127.81.177:8000/api/registers/{pk}/').json()
+    data=requests.get(f'http://13.127.81.177:8000/api/internship-applications/{pk}/').json()
     return render(request,'Intern-Pf-1.html',{'data':data})
 
 
 
-def select(request, pk):
-    update_endpoint = f'http://13.127.81.177:8000/api/registers/{pk}/'
+def Select_intern(request, pk):
+    update_endpoint = f'http://13.127.81.177:8000/api/internship-applications/{pk}/'
 
+    # Update candidate_status with a serializable value
     update_data = {
-        'candidate_status':select
+        'candidate_status': 'Accept',  # Example status value
     }
+
     response = requests.patch(update_endpoint, json=update_data)
     if response.status_code == 200:
-        return JsonResponse({'message': 'User candidate status updated successfully'})
+        return redirect('intern_info', pk)
     else:
         return JsonResponse({'error': 'Failed to update user verification status'}, status=response.status_code)
     
 
-# def reject(request, pk):
-#     update_endpoint = f'http://13.127.81.177:8000/api/registers/{pk}/'
+def Reject_intern(request, pk):
+    update_endpoint = f'http://13.127.81.177:8000/api/internship-applications/{pk}/'
 
-#     update_data = {
-#         'candidate_status':reject 
-#     }
-#     response = requests.patch(update_endpoint, json=update_data)
-#     if response.status_code == 200:
-#         return JsonResponse({'message': 'User verification status updated successfully'})
-#     else:
-#         return JsonResponse({'error': 'Failed to update user verification status'}, status=response.status_code)
+    # Update candidate_status with a serializable value
+    update_data = {
+        'candidate_status': 'Reject',  # Example status value
+    }
 
+    response = requests.patch(update_endpoint, json=update_data)
+    if response.status_code == 200:
+        return redirect('intern_info', pk)
+    else:
+        return JsonResponse({'error': 'Failed to update user verification status'}, status=response.status_code)
 # ----------------------------------------------------------------------------------------------------
 
 
@@ -260,45 +322,344 @@ def select(request, pk):
 # ---------------------------------Mantoreship section-------------------------------------------------
 
 
-def mentoreship(request):
-    data=requests.get('http://13.127.81.177:8000/api/mentoreship/').json()
-    mentoreship_count=len(data)
-    print(data)
-    return render(request,'mentoreship.html',{'mentoreship_count':mentoreship_count})
+def Mentoreship(request):
+    data = requests.get('http://13.127.81.177:8000/api/mentorship/').json()
+    mentor_count = len(data)
+
+    # --------------Count the total Selected ----------------------
+    url = 'http://13.127.81.177:8000/api/mentorship/'
+
+    response = requests.get(url)
+    response.raise_for_status()  
+    data = response.json()
+    select_count = 0
+    for mentoreship in data:
+        if mentoreship.get('candidate_status') == 'Select':
+            select_count += 1
+    print(f'Number of Selected Candidate: {select_count}')
+
+
+     # --------------Count the total Rejected ----------------------
+    url = 'http://13.127.81.177:8000/api/mentorship/'
+
+    response = requests.get(url)
+    response.raise_for_status()  
+    data = response.json()
+    Reject_count = 0
+    for mentoreship in data:
+        if mentoreship.get('candidate_status') == 'Reject':
+            Reject_count += 1
+    print(f'Number of Rejected Candidate: {Reject_count}')
+    
+    context={
+        'mentor_count':mentor_count,
+        'select_count':select_count,
+        'Reject_count':Reject_count,
+    }
+
+    return render(request,'Mentoreship.html',context)
+
+
+def Mentor_dash1(request):
+    data=requests.get('http://13.127.81.177:8000/api/mentorship/').json()
+    return render(request,'Mentor-dash1.html',{'data':data})
+
+def mentor_info1(request,pk):
+    data=requests.get(f'http://13.127.81.177:8000/api/mentorship/{pk}/').json()
+    return render(request,'Mentor-pf-1.html',{'data':data})
+
+
+def Select(request, pk):
+    update_endpoint = f'http://13.127.81.177:8000/api/mentorship/{pk}/'
+
+    # Update candidate_status with a serializable value
+    update_data = {
+        'candidate_status': 'Select',  # Example status value
+    }
+
+    response = requests.patch(update_endpoint, json=update_data)
+    if response.status_code == 200:
+        return redirect('mentor_info1', pk)
+    else:
+        return JsonResponse({'error': 'Failed to update user verification status'}, status=response.status_code)
+    
+
+def Reject(request, pk):
+    update_endpoint = f'http://13.127.81.177:8000/api/mentorship/{pk}/'
+
+    # Update candidate_status with a serializable value
+    update_data = {
+        'candidate_status': 'Reject',  # Example status value
+    }
+
+    response = requests.patch(update_endpoint, json=update_data)
+    if response.status_code == 200:
+        return redirect('mentor_info1', pk)
+    else:
+        return JsonResponse({'error': 'Failed to update user verification status'}, status=response.status_code)
 
 
 
+def Mentor_dash2(request):
+    url = 'http://13.127.81.177:8000/api/mentorship/'
+    response = requests.get(url)
 
+    if response.status_code == 200:
+        data = response.json()
+        verified_data = [entry for entry in data if entry.get('candidate_status') == 'Select']
+        context = {'data': verified_data}    
+    else:
+        context = {'data': [], 'error': 'Failed to retrieve data from the API'}
+
+    return render(request, 'Mentor-dash2.html', context)
+
+def mentor_info2(request,pk):
+    data=requests.get(f'http://13.127.81.177:8000/api/mentorship/{pk}/').json()
+    return render(request,'Mentor-pf-2.html',{'data':data})
 
 # -----------------------------------------------------------------------------------------------------
 
+
+
+# ------------------------------------- Corporate training Section ------------------------------------------------
+
+def corporate_training(request):
+    data=requests.get('http://13.127.81.177:8000/api/corporatetraining/').json()
+    corporate_training_count=len(data)
+    print(data)
+
+    # --------------Count the total Selected ----------------------
+    url = 'http://13.127.81.177:8000/api/corporatetraining/'
+
+    response = requests.get(url)
+    response.raise_for_status()  
+    data = response.json()
+    select_count = 0
+    for corporate in data:
+        if corporate.get('candidate_status') == 'Select':
+            select_count += 1
+    print(f'Number of Selected Candidate: {select_count}')
+
+
+     # --------------Count the total Rejected ----------------------
+    url = 'http://13.127.81.177:8000/api/corporatetraining/'
+
+    response = requests.get(url)
+    response.raise_for_status()  
+    data = response.json()
+    Reject_count = 0
+    for corporate in data:
+        if corporate.get('candidate_status') == 'Reject':
+            Reject_count += 1
+    print(f'Number of Rejected Candidate: {Reject_count}')
+
+     # -------------- Count the Not-Enroll ----------------------
+    url = 'http://13.127.81.177:8000/api/corporatetraining/'
+
+    response = requests.get(url)
+    response.raise_for_status()  
+    data = response.json()
+    Notenroll_count = 0
+    for corporate in data:
+        if corporate.get('payment_status') == 'Not Enroll':
+            Notenroll_count += 1
+    print(f'Number of Rejected Candidate: {Notenroll_count}')
+
+    context={
+        'corporate_training_count':corporate_training_count,
+        'select_count':select_count,
+        'Reject_count':Reject_count,
+        'Notenroll_count':Notenroll_count,
+    }
+    return render(request,'corporate.html',context)
+
+
+def corporate_dash1(request):
+    data=requests.get('http://13.127.81.177:8000/api/corporatetraining/').json()
+    return render(request,'corporate-dash1.html',{'data':data})
+
+def corporate_info1(request,pk):
+    data=requests.get(f'http://13.127.81.177:8000/api/corporatetraining/{pk}/').json()
+    return render(request,'corporate-pf-1.html',{'data':data})
+
+def corporate_dash2(request):
+    url = 'http://13.127.81.177:8000/api/corporatetraining/'
+    response = requests.get(url)
+
+    if response.status_code == 200:
+        data = response.json()
+        verified_data = [entry for entry in data if entry.get('verified') == True]
+        context = {'data': verified_data}    
+    else:
+        context = {'data': [], 'error': 'Failed to retrieve data from the API'}
+    return render(request,'corporate-dash1.html',context)
+
+def corporate_info2(request,pk):
+    data=requests.get(f'http://13.127.81.177:8000/api/corporatetraining/{pk}/').json()
+    return render(request,'corporate-pf-1.html',{'data':data})
+
+def corporate_dash3(request):
+    data=requests.get('http://13.127.81.177:8000/api/corporatetraining/').json()
+    return render(request,'corporate-dash1.html',{'data':data})
+
+def corporate_info3(request,pk):
+    data=requests.get(f'http://13.127.81.177:8000/api/corporatetraining/{pk}/').json()
+    return render(request,'corporate-pf-1.html',{'data':data})
+
+def corporate_dash4(request):
+    data=requests.get('http://13.127.81.177:8000/api/corporatetraining/').json()
+    return render(request,'corporate-dash1.html',{'data':data})
+
+def corporate_info4(request,pk):
+    data=requests.get(f'http://13.127.81.177:8000/api/corporatetraining/{pk}/').json()
+    return render(request,'corporate-pf-1.html',{'data':data})
+
+
+
+def Corporate_Select(request, pk):
+    update_endpoint = f'http://13.127.81.177:8000/api/corporatetraining/{pk}/'
+
+    # Update candidate_status with a serializable value
+    update_data = {
+        'candidate_status': 'Select',  # Example status value
+    }
+
+    response = requests.patch(update_endpoint, json=update_data)
+    if response.status_code == 200:
+        return redirect('corporate_info1', pk)
+    else:
+        return JsonResponse({'error': 'Failed to update user verification status'}, status=response.status_code)
+    
+
+def Corporate_Reject(request, pk):
+    update_endpoint = f'http://13.127.81.177:8000/api/corporatetraining/{pk}/'
+
+    # Update candidate_status with a serializable value
+    update_data = {
+        'candidate_status': 'Reject',  # Example status value
+    }
+
+    response = requests.patch(update_endpoint, json=update_data)
+    if response.status_code == 200:
+        return redirect('corporate_info1', pk)
+    else:
+        return JsonResponse({'error': 'Failed to update user verification status'}, status=response.status_code)
+
+
+# ----------------------------------------------------------------------------------------------------------
 
 
 
 # -------------------------------------fresher section--------------------------------------------------
 
 def fresher(request):
-    data=requests.get('http://13.127.81.177:8000/api/fresher/').json()
+    data=requests.get('http://13.127.81.177:8000/job-applications/').json()
     fresher_count=len(data)
     print(data)
-    return render(request,'fresher.html',{'fresher_count':fresher_count})
+
+     # --------------Count the total Selected ----------------------
+    url = 'http://13.127.81.177:8000/job-applications/'
+
+    response = requests.get(url)
+    response.raise_for_status()  
+    data = response.json()
+    select_count = 0
+    for fresher in data:
+        if fresher.get('candidate_status') == 'Select':
+            select_count += 1
+    print(f'Number of Selected Candidate: {select_count}')
+
+
+     # --------------Count the total Rejected ----------------------
+    url = 'http://13.127.81.177:8000/job-applications/'
+
+    response = requests.get(url)
+    response.raise_for_status()  
+    data = response.json()
+    Reject_count = 0
+    for fresher in data:
+        if fresher.get('candidate_status') == 'Reject':
+            Reject_count += 1
+    print(f'Number of Rejected Candidate: {Reject_count}')
+
+     # -------------- Count the Not-Enroll ----------------------
+    url = 'http://13.127.81.177:8000/job-applications/'
+
+    response = requests.get(url)
+    response.raise_for_status()  
+    data = response.json()
+    Notenroll_count = 0
+    for fresher in data:
+        if fresher.get('payment_status') == 'Not Enroll':
+            Notenroll_count += 1
+    print(f'Number of Rejected Candidate: {Notenroll_count}')
+    context={
+        'fresher_count':fresher_count,
+    }
+    return render(request,'fresher.html',context)
+
+
+def fresher_dash1(request):
+    data=requests.get('http://13.127.81.177:8000/job-applications/').json()
+    return render(request,'fresher-dash1.html',{'data':data})
+
+def fresher_info1(request,pk):
+    data=requests.get(f'http://13.127.81.177:8000/job-applications/{pk}/').json()
+    return render(request,'fresher-pf-1.html',{'data':data})
+
+def fresher_dash2(request):
+    data=requests.get('http://13.127.81.177:8000/job-applications/').json()
+    return render(request,'fresher-dash1.html',{'data':data})
+
+def fresher_info2(request,pk):
+    data=requests.get(f'http://13.127.81.177:8000/job-applications/{pk}/').json()
+    return render(request,'fresher-pf-1.html',{'data':data})
+
+def fresher_dash3(request):
+    data=requests.get('http://13.127.81.177:8000/job-applications/').json()
+    return render(request,'fresher-dash1.html',{'data':data})
+
+def fresher_info3(request,pk):
+    data=requests.get(f'http://13.127.81.177:8000/job-applications/{pk}/').json()
+    return render(request,'fresher-pf-1.html',{'data':data})
+
+def fresher_dash4(request):
+    data=requests.get('http://13.127.81.177:8000/job-applications/').json()
+    return render(request,'fresher-dash1.html',{'data':data})
+
+def fresher_info4(request,pk):
+    data=requests.get(f'http://13.127.81.177:8000/job-applications/{pk}/').json()
+    return render(request,'fresher-pf-1.html',{'data':data})
 
 
 
+def fresher_Select(request, pk):
+    update_endpoint = f'http://13.127.81.177:8000/job-applications/{pk}/'
+
+    # Update candidate_status with a serializable value
+    update_data = {
+        'candidate_status': 'Select',  # Example status value
+    }
+
+    response = requests.patch(update_endpoint, json=update_data)
+    if response.status_code == 200:
+        return redirect('fresher_info1', pk)
+    else:
+        return JsonResponse({'error': 'Failed to update user verification status'}, status=response.status_code)
+    
+
+def fresher_Reject(request, pk):
+    update_endpoint = f'http://13.127.81.177:8000/job-applications/{pk}/'
+
+    # Update candidate_status with a serializable value
+    update_data = {
+        'candidate_status': 'Reject',  # Example status value
+    }
+
+    response = requests.patch(update_endpoint, json=update_data)
+    if response.status_code == 200:
+        return redirect('fresher_info1', pk)
+    else:
+        return JsonResponse({'error': 'Failed to update user verification status'}, status=response.status_code)
 
 # -----------------------------------------------------------------------------------------------------
-
-
-
-# -------------------------------------corporate training------------------------------------------------
-
-def corporate_training(request):
-    data=requests.get('http://13.127.81.177:8000/api/corporate_training/').json()
-    corporate_training_count=len(data)
-    print(data)
-    return render(request,'corporate-training.html',{'corporate_training_count':corporate_training_count})
-
-
-
-
-# ----------------------------------------------------------------------------------------------------------
