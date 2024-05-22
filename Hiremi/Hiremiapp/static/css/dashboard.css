@@ -42,6 +42,11 @@ header nav ul li {
   width: 100%;
   padding: 10px 0px 20px 20px;
 }
+header nav ul li.active,
+header nav ul li.hover {
+  border: 1px solid brown;
+  transition: 0.5s;
+}
 header i {
   padding-right: 10px;
   font-size: 20px;
@@ -262,23 +267,23 @@ tbody {
 th {
   font-size: 20px;
 }
-label #btn,
-label #cancel {
+#btn {
+  display: none;
   color: white;
   font-size: 30px;
   float: left;
   line-height: 80px;
-  margin-left: 40px;
+  margin-top: -20px;
   cursor: pointer;
-  display: none;
 }
-#check {
-  display: none;
-}
+
 /* tablets and  */
-@media only screen and (min-width: 700px) and (max-width: 900`px) {
+/* @media only screen and (min-width: 600px) and (max-width: 1024px) {
+  body {
+    margin-right: 0px;
+  }
   header {
-    width: 140px;
+    width: 180px;
   }
   header .logo {
     width: 150px;
@@ -353,8 +358,9 @@ label #cancel {
   }
   .inp-bg img {
     position: absolute;
-    left: 86%;
+    right: 34%;
   }
+
   .inp-bg input::placeholder {
     padding-left: 55px;
     font-size: 25px;
@@ -543,18 +549,18 @@ label #cancel {
   tbody {
     text-align: center;
   }
-}
+} */
 /* mobile */
-@media only screen and (max-width: 400px) {
+@media only screen and (min-width: 400px) and (max-width: 900px) {
   header {
-    width: 70px;
+    width: 80px;
   }
   header .logo {
-    width: 80px;
+    width: 100px;
     height: 30px;
   }
   header h1 {
-    font-size: 10px;
+    font-size: 14px;
   }
   header p {
     font-size: 10px;
@@ -569,10 +575,14 @@ label #cancel {
   }
   header nav ul {
     list-style-type: none;
-    padding-left: -20px;
-    font-size: 15px;
-
-    /* transition: all 0.5s; */
+    padding-left: 2px;
+    font-size: 12px;
+    position: fixed;
+    left: 0;
+    margin-top: 60px;
+    padding-bottom: 500px;
+    left: -100%;
+    transition: all 0.5s;
   }
 
   header nav ul li:first-child {
@@ -583,13 +593,19 @@ label #cancel {
     border-radius: 6px;
   }
   header nav ul li {
-    padding-right: 20px;
+    /* padding-right: 20px; */
+    display: block;
 
-    left: -1000%;
+    margin: -10px;
+
+    /* line height:0.1px; */
   }
   header nav ul li {
     width: 100%;
     padding: 7px 0px 20px 10px;
+  }
+  nav ul.show {
+    left: 0;
   }
   header i {
     padding-left: -10px;
@@ -611,24 +627,25 @@ label #cancel {
     padding-left: 150px;
     padding-top: 20px;
 
-    width: 30%;
+    width: 40%;
     display: flex;
     justify-content: center;
     align-items: center;
   }
   .sec-inp {
-    width: 100%;
+    width: 150%;
   }
   .inp-bg i {
     font-size: 20px;
     color: red;
     position: absolute;
-    left: 36%;
+    right: 50%;
   }
   .inp-bg img {
     position: absolute;
     visibility: hidden;
-    left: 62%;
+    float: right;
+    right: 52%;
     font-size: 10px;
     height: 15px;
     width: 15px;
@@ -650,6 +667,7 @@ label #cancel {
     width: 70px;
   }
   .account {
+    margin-top: -30px;
     background-color: #f2f2f2;
     width: 150%;
     height: 50%;
@@ -661,11 +679,11 @@ label #cancel {
   .ac-in h4 {
     padding-top: 10px;
     display: grid;
-    width: 35%;
-    font-size: 10px;
+    width: 37%;
+    font-size: 12px;
     grid-template-columns: repeat(3, 1fr);
     padding-right: 120px;
-    padding-left: 0px;
+    padding-left: 40px;
     align-items: center;
     column-gap: 0px;
   }
@@ -686,7 +704,7 @@ label #cancel {
     display: block;
     justify-content: center;
     column-gap: px;
-    margin-left: 120px;
+    margin-left: 140px;
     padding-top: -20px;
   }
   .ac-st {
@@ -694,7 +712,7 @@ label #cancel {
     border-radius: 10px;
     position: relative;
     border-left: 5px solid red;
-    width: 160px;
+    width: 240px;
     display: flex;
     align-items: center;
     margin-right: 20px;
@@ -716,12 +734,12 @@ label #cancel {
     color: white;
     display: flex;
     justify-content: center;
-    font-size: 15px;
+    font-size: 18px;
     border-radius: 50%;
   }
   .state {
     padding-right: 20px;
-    padding-left: 20px;
+    padding-left: 34px;
     margin-left: -5px;
     margin-right: 400px;
   }
@@ -731,11 +749,11 @@ label #cancel {
   }
   .state h3 {
     padding-top: 28px;
-    font-size: 10px;
+    font-size: 15px;
   }
   .state p1 {
     font-weight: 600;
-    font-size: 10px;
+    font-size: 13px;
   }
   .state p {
     font-size: 10px;
@@ -748,12 +766,12 @@ label #cancel {
     padding-top: 70px;
   }
   .sub-st p1 {
-    font-size: 10px;
+    font-size: 12px;
     text-align: end;
     color: springgreen;
   }
   .sub-st p {
-    font-size: 10px;
+    font-size: 12px;
     color: lightgray;
   }
   .list {
@@ -761,12 +779,12 @@ label #cancel {
     justify-content: center;
   }
   .list h4 {
-    font-size: 10px;
+    font-size: 13px;
     display: grid;
     width: 35%;
     grid-template-columns: repeat(3, 1fr);
     padding-right: 120px;
-    padding-left: 0px;
+    padding-left: 10px;
     align-items: center;
     column-gap: 0px;
   }
@@ -788,7 +806,7 @@ label #cancel {
     padding-right: 200px;
   }
   .list-items ul li {
-    font-size: 6px;
+    font-size: 8px;
     font-weight: 600;
     color: white;
     padding: 5px;
@@ -796,14 +814,14 @@ label #cancel {
     background: linear-gradient(30deg, red, rgb(0, 0, 0));
   }
   .list1 .list-type {
-    margin-left: 19%;
+    margin-left: 20%;
   }
   thead,
   th {
-    font-size: 9px;
+    font-size: 13px;
   }
   table {
-    width: 5%;
+    width: 30%;
   }
   table,
   th,
@@ -818,7 +836,7 @@ label #cancel {
   }
   table,
   td {
-    font-size: 8px;
+    font-size: 11px;
     text-align: center;
     border-bottom: 2px solid lightgray;
   }
@@ -826,25 +844,17 @@ label #cancel {
   tbody {
     text-align: center;
   }
-  label #btn {
-    display: block;
-    padding-bottom: 900px;
-  }
-  #check: checked ~ul {
-    left: 0;
-  }
-  #check: checked ~;
-  label #btn {
-    display: none;
-  }
-  #check: checked~;
-  label #cancel {
+  #btn {
+    padding-bottom: 1000px;
+    font-size: 25px;
+    padding-right: 120px;
+    padding-left: 120px;
     display: block;
   }
 }
 
 /* ipad screen */
-@media only screen and (min-width: 700px) and (max-width: 1024px) {
+/* @media only screen and (min-width: 700px) and (max-width: 1024px) {
   header {
     width: 140px;
   }
@@ -1110,5 +1120,930 @@ label #cancel {
   table,
   tbody {
     text-align: center;
+  }
+} */
+@media only screen and (max-width: 412px) {
+  header {
+    width: 80px;
+  }
+  header .logo {
+    width: 100px;
+    height: 30px;
+  }
+  header h1 {
+    font-size: 14px;
+  }
+  header p {
+    font-size: 10px;
+    padding-left: 20px;
+    padding-bottom: 10px;
+  }
+
+  header nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  header nav ul {
+    list-style-type: none;
+    padding-left: 2px;
+    font-size: 12px;
+    position: fixed;
+    left: 0;
+    margin-top: 60px;
+    padding-bottom: 500px;
+    left: -100%;
+    transition: all 0.5s;
+  }
+
+  header nav ul li:first-child {
+    background-color: #f2f2f281;
+    height: 10px;
+    position: absolute;
+    width: 85%;
+    border-radius: 6px;
+  }
+  header nav ul li {
+    /* padding-right: 20px; */
+    display: block;
+
+    margin: -10px;
+
+    /* line height:0.1px; */
+  }
+  header nav ul li {
+    width: 100%;
+    padding: 7px 0px 20px 10px;
+  }
+  nav ul.show {
+    left: 0;
+  }
+  header i {
+    padding-left: -10px;
+    padding-right: 10px;
+    font-size: 20px;
+  }
+  header nav a {
+    color: white;
+    text-decoration: none;
+  }
+  .search {
+    background-color: #f2f2f2;
+    height: 100%;
+    width: 100%;
+    padding-left: 1%;
+    padding-bottom: 50px;
+  }
+  .inp-bg {
+    padding-left: 140px;
+    padding-top: 20px;
+
+    width: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .sec-inp {
+    width: 160%;
+  }
+  .inp-bg i {
+    font-size: 20px;
+    color: brown;
+    position: absolute;
+
+    left: 40%;
+  }
+  .inp-bg img {
+    position: absolute;
+
+    /* float: right; */
+    padding-left: 120px;
+    left: 45%;
+    right: 60%;
+
+    font-size: 8px;
+    height: 13px;
+    width: 2px;
+  }
+  .inp-bg input::placeholder {
+    padding-left: 30px;
+    font-size: 16px;
+  }
+  .inp-bg input {
+    border-radius: 20px;
+    box-shadow: 1px 0.5px 5px 0.5px;
+    padding: 10px;
+    height: 20px;
+    width: 600px;
+    border: none;
+    outline: none;
+  }
+  .sec-inp img {
+    width: 70px;
+  }
+  .account {
+    margin-top: -30px;
+    background-color: #f2f2f2;
+    width: 150%;
+    height: 50%;
+  }
+  .account h4 {
+    text-align: center;
+    color: red;
+  }
+  .ac-in h4 {
+    padding-top: 10px;
+    display: grid;
+    width: 35%;
+    font-size: 13px;
+    grid-template-columns: repeat(3, 1fr);
+    padding-right: 140px;
+    padding-left: 8px;
+    align-items: center;
+    column-gap: 0px;
+  }
+  .ac-in {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .ac-in h4::before,
+  .ac-in h4::after {
+    content: "";
+    height: 1px;
+    background-color: grey;
+    display: inline;
+  }
+  .statement {
+    display: block;
+    justify-content: center;
+    column-gap: px;
+    margin-left: 140px;
+    padding-top: -20px;
+  }
+  .ac-st {
+    background-color: #fff;
+    border-radius: 10px;
+    position: relative;
+    border-left: 5px solid red;
+    width: 240px;
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+    margin-bottom: -20px;
+    padding-bottom: 5px;
+    height: 120px;
+
+    padding-left: 3px;
+    margin-top: 50px;
+  }
+  .ac-st .icon {
+    background: linear-gradient(30deg, red, rgb(0, 0, 0));
+    width: 30px;
+    height: 37px;
+    border-radius: 50%;
+  }
+  .ac-st .icon i {
+    padding: 12px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    font-size: 18px;
+    border-radius: 50%;
+  }
+  .state {
+    padding-right: 20px;
+    padding-left: 34px;
+    margin-left: -5px;
+    margin-right: 400px;
+  }
+  .state h3,
+  .state p {
+    color: red;
+  }
+  .state h3 {
+    padding-top: 28px;
+    font-size: 15px;
+  }
+  .state p1 {
+    font-weight: 600;
+    font-size: 13px;
+  }
+  .state p {
+    font-size: 10px;
+    padding-top: 5px;
+  }
+  .sub-st {
+    position: absolute;
+    right: 2%;
+    text-align: end;
+    padding-top: 70px;
+  }
+  .sub-st p1 {
+    font-size: 12px;
+    text-align: end;
+    color: springgreen;
+  }
+  .sub-st p {
+    font-size: 12px;
+    color: lightgray;
+  }
+  .list {
+    display: flex;
+    justify-content: center;
+  }
+  .list h4 {
+    font-size: 13px;
+    display: grid;
+    width: 35%;
+    grid-template-columns: repeat(3, 1fr);
+    padding-right: 140px;
+    padding-left: 8px;
+    align-items: center;
+    column-gap: 0px;
+  }
+  .list h4::before,
+  .list h4::after {
+    content: "";
+    height: 1px;
+    background-color: #000;
+    display: inline;
+  }
+  .list-items {
+    display: flex;
+    justify-content: end;
+  }
+  .list-items ul {
+    display: flex;
+    list-style: none;
+    column-gap: 20px;
+    padding-right: 200px;
+  }
+  .list-items ul li {
+    font-size: 8px;
+    font-weight: 600;
+    color: white;
+    padding: 5px;
+    border-radius: 20px;
+    background: linear-gradient(30deg, red, rgb(0, 0, 0));
+  }
+  .list1 .list-type {
+    margin-left: 20%;
+  }
+  thead,
+  th {
+    font-size: 13px;
+  }
+  table {
+    width: 30%;
+  }
+  table,
+  th,
+  td {
+    padding: 2px;
+  }
+  table,
+  th,
+  td {
+    border-bottom: 2px solid gray;
+    border-spacing: 0;
+  }
+  table,
+  td {
+    font-size: 11px;
+    text-align: center;
+    border-bottom: 2px solid lightgray;
+  }
+  table,
+  tbody {
+    text-align: center;
+  }
+  #btn {
+    padding-bottom: 1000px;
+    font-size: 25px;
+    padding-right: 120px;
+    padding-left: 120px;
+    display: block;
+  }
+}
+@media only screen and (max-width: 360px) {
+  header {
+    width: 80px;
+  }
+  header .logo {
+    width: 100px;
+    height: 30px;
+  }
+  header h1 {
+    font-size: 14px;
+  }
+  header p {
+    font-size: 10px;
+    padding-left: 20px;
+    padding-bottom: 10px;
+  }
+
+  header nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  header nav ul {
+    list-style-type: none;
+    padding-left: 2px;
+    font-size: 12px;
+    position: fixed;
+    left: 0;
+    margin-top: 60px;
+    padding-bottom: 500px;
+    left: -100%;
+    transition: all 0.5s;
+  }
+
+  header nav ul li:first-child {
+    background-color: #f2f2f281;
+    height: 10px;
+    position: absolute;
+    width: 85%;
+    border-radius: 6px;
+  }
+  header nav ul li {
+    /* padding-right: 20px; */
+    display: block;
+
+    margin: -10px;
+
+    /* line height:0.1px; */
+  }
+  header nav ul li {
+    width: 100%;
+    padding: 7px 0px 20px 10px;
+  }
+  nav ul.show {
+    left: 0;
+  }
+  header i {
+    padding-left: -10px;
+    padding-right: 10px;
+    font-size: 20px;
+  }
+  header nav a {
+    color: white;
+    text-decoration: none;
+  }
+  .search {
+    background-color: #f2f2f2;
+    height: 100%;
+    width: 100%;
+    padding-left: 0.1%;
+    padding-bottom: 50px;
+  }
+  .inp-bg {
+    padding-left: 140px;
+    padding-top: 20px;
+
+    width: 37%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .sec-inp {
+    width: 150%;
+  }
+  .inp-bg i {
+    font-size: 20px;
+    color: brown;
+    position: absolute;
+
+    left: 42%;
+  }
+  .inp-bg img {
+    position: absolute;
+
+    /* float: right; */
+    position: absolute;
+    left: 74%;
+    right: 60%;
+
+    font-size: 8px;
+    height: 12px;
+    width: 1px;
+  }
+  .inp-bg input::placeholder {
+    padding-left: 30px;
+    font-size: 15px;
+  }
+  .inp-bg input {
+    border-radius: 20px;
+    box-shadow: 1px 0.5px 5px 0.5px;
+    padding: 10px;
+    height: 20px;
+    width: 600px;
+    border: none;
+    outline: none;
+  }
+  .sec-inp img {
+    width: 70px;
+  }
+  .account {
+    margin-top: -30px;
+    background-color: #f2f2f2;
+    width: 150%;
+    height: 50%;
+  }
+  .account h4 {
+    text-align: center;
+    color: red;
+  }
+  .ac-in h4 {
+    padding-top: 10px;
+    display: grid;
+    width: 50%;
+    font-size: 13px;
+    grid-template-columns: repeat(3, 1fr);
+    padding-right: 120px;
+    padding-left: 30px;
+    align-items: center;
+    column-gap: 0px;
+  }
+  .ac-in {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .ac-in h4::before,
+  .ac-in h4::after {
+    content: "";
+    height: 1px;
+    background-color: grey;
+    display: inline;
+  }
+  .statement {
+    display: block;
+    justify-content: center;
+    column-gap: px;
+    margin-left: 140px;
+    padding-top: -20px;
+  }
+  .ac-st {
+    background-color: #fff;
+    border-radius: 10px;
+    position: relative;
+    border-left: 5px solid red;
+    width: 180px;
+    display: flex;
+    align-items: center;
+    margin-right: 22px;
+    margin-bottom: -20px;
+    padding-bottom: 5px;
+    height: 120px;
+
+    padding-left: 3px;
+    margin-top: 50px;
+  }
+  .ac-st .icon {
+    background: linear-gradient(30deg, red, rgb(0, 0, 0));
+    width: 30px;
+    height: 37px;
+    border-radius: 50%;
+  }
+  .ac-st .icon i {
+    padding: 12px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    font-size: 18px;
+    border-radius: 50%;
+  }
+  .state {
+    padding-right: 20px;
+    padding-left: 34px;
+    margin-left: -5px;
+    margin-right: 400px;
+  }
+  .state h3,
+  .state p {
+    color: red;
+  }
+  .state h3 {
+    padding-top: 28px;
+    font-size: 15px;
+  }
+  .state p1 {
+    font-weight: 600;
+    font-size: 13px;
+  }
+  .state p {
+    font-size: 10px;
+    padding-top: 5px;
+  }
+  .sub-st {
+    position: absolute;
+    right: 2%;
+    text-align: end;
+    padding-top: 70px;
+  }
+  .sub-st p1 {
+    font-size: 12px;
+    text-align: end;
+    color: springgreen;
+  }
+  .sub-st p {
+    font-size: 12px;
+    color: lightgray;
+  }
+  .list {
+    display: flex;
+    justify-content: center;
+  }
+  .list h4 {
+    padding-top: 8px;
+    display: grid;
+    width: 50%;
+    font-size: 13px;
+    grid-template-columns: repeat(3, 1fr);
+    padding-right: 120px;
+    padding-left: 30px;
+    align-items: center;
+    column-gap: 0px;
+  }
+  .list h4::before,
+  .list h4::after {
+    content: "";
+    height: 1px;
+    background-color: grey;
+    display: inline;
+  }
+  .list-items {
+    display: flex;
+    justify-content: end;
+    padding-left: 100px;
+  }
+  .list-items ul {
+    display: flex;
+    list-style: none;
+    column-gap: 20px;
+    padding-right: 200px;
+    padding-left: 26px;
+  }
+  .list-items ul li {
+    font-size: 8px;
+    font-weight: 600;
+    color: white;
+    padding-left: 4px;
+    padding: 4px;
+    border-radius: 20px;
+    background: linear-gradient(30deg, red, rgb(0, 0, 0));
+  }
+  .list1 .list-type {
+    margin-left: 20%;
+  }
+  thead,
+  th {
+    font-size: 13px;
+  }
+  table {
+    width: 30%;
+  }
+  table,
+  th,
+  td {
+    padding: 2px;
+  }
+  table,
+  th,
+  td {
+    border-bottom: 2px solid gray;
+    border-spacing: 0;
+  }
+  table,
+  td {
+    font-size: 11px;
+    text-align: center;
+    border-bottom: 2px solid lightgray;
+  }
+  table,
+  tbody {
+    text-align: center;
+  }
+  #btn {
+    padding-bottom: 1000px;
+    font-size: 25px;
+    padding-right: 120px;
+    padding-left: 120px;
+    display: block;
+  }
+}
+@media only screen and (max-width: 536px) {
+  header {
+    width: 80px;
+  }
+  header .logo {
+    width: 100px;
+    height: 30px;
+  }
+  header h1 {
+    font-size: 14px;
+  }
+  header p {
+    font-size: 10px;
+    padding-left: 20px;
+    padding-bottom: 10px;
+  }
+
+  header nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  header nav ul {
+    list-style-type: none;
+    padding-left: 2px;
+    font-size: 12px;
+    position: fixed;
+    left: 0;
+    margin-top: 60px;
+    padding-bottom: 500px;
+    left: -100%;
+    transition: all 0.5s;
+  }
+
+  header nav ul li:first-child {
+    background-color: #f2f2f281;
+    height: 10px;
+    position: absolute;
+    width: 85%;
+    border-radius: 6px;
+  }
+  header nav ul li {
+    /* padding-right: 20px; */
+    display: block;
+
+    margin: -10px;
+
+    /* line height:0.1px; */
+  }
+  header nav ul li {
+    width: 100%;
+    padding: 7px 0px 20px 10px;
+  }
+  nav ul.show {
+    left: 0;
+  }
+  header i {
+    padding-left: -10px;
+    padding-right: 10px;
+    font-size: 20px;
+  }
+  header nav a {
+    color: white;
+    text-decoration: none;
+  }
+  .search {
+    background-color: #f2f2f2;
+    height: 100%;
+    width: 100%;
+    padding-left: 0.1%;
+    padding-bottom: 50px;
+  }
+  .inp-bg {
+    padding-left: 140px;
+    padding-top: 20px;
+
+    width: 42%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .sec-inp {
+    width: 150%;
+  }
+  .inp-bg i {
+    font-size: 20px;
+    color: brown;
+    position: absolute;
+
+    left: 30%;
+  }
+  .inp-bg img {
+    position: absolute;
+
+    /* float: right; */
+
+    left: 40%;
+    right: 50%;
+
+    font-size: 8px;
+    height: 12px;
+    width: 1px;
+  }
+  .inp-bg input::placeholder {
+    padding-left: 30px;
+    font-size: 15px;
+  }
+  .inp-bg input {
+    border-radius: 20px;
+    box-shadow: 1px 0.5px 5px 0.5px;
+    padding: 10px;
+    height: 20px;
+    width: 600px;
+    border: none;
+    outline: none;
+  }
+  .sec-inp img {
+    width: 70px;
+  }
+  .account {
+    margin-top: -30px;
+    background-color: #f2f2f2;
+    width: 150%;
+    height: 50%;
+  }
+  .account h4 {
+    text-align: center;
+    color: red;
+  }
+  .ac-in h4 {
+    padding-top: 10px;
+    display: grid;
+    width: 50%;
+    font-size: 14px;
+    grid-template-columns: repeat(3, 1fr);
+    padding-right: 190px;
+    padding-left: 30px;
+    align-items: center;
+    column-gap: 0px;
+  }
+  .ac-in {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .ac-in h4::before,
+  .ac-in h4::after {
+    content: "";
+    height: 1px;
+    background-color: grey;
+    display: inline;
+  }
+  .statement {
+    display: block;
+    justify-content: center;
+    column-gap: px;
+    margin-left: 140px;
+    padding-top: -20px;
+  }
+  .ac-st {
+    background-color: #fff;
+    border-radius: 10px;
+    position: relative;
+    border-left: 5px solid red;
+    width: 300px;
+    display: flex;
+    align-items: center;
+    margin-right: 22px;
+    margin-bottom: -20px;
+    padding-bottom: 5px;
+    height: 120px;
+
+    padding-left: 3px;
+    margin-top: 50px;
+  }
+  .ac-st .icon {
+    background: linear-gradient(30deg, red, rgb(0, 0, 0));
+    width: 30px;
+    height: 37px;
+    border-radius: 50%;
+  }
+  .ac-st .icon i {
+    padding: 12px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    font-size: 18px;
+    border-radius: 50%;
+  }
+  .state {
+    padding-right: 20px;
+    padding-left: 39px;
+    margin-left: -5px;
+    margin-right: 400px;
+  }
+  .state h3,
+  .state p {
+    color: red;
+  }
+  .state h3 {
+    padding-top: 28px;
+    font-size: 17px;
+  }
+  .state p1 {
+    font-weight: 600;
+    font-size: 13px;
+  }
+  .state p {
+    font-size: 10px;
+    padding-top: 5px;
+  }
+  .sub-st {
+    position: absolute;
+    right: 2%;
+    text-align: end;
+    padding-top: 70px;
+  }
+  .sub-st p1 {
+    font-size: 12px;
+    text-align: end;
+    color: springgreen;
+  }
+  .sub-st p {
+    font-size: 12px;
+    color: lightgray;
+  }
+  .list {
+    display: flex;
+    justify-content: center;
+  }
+  .list h4 {
+    padding-top: 10px;
+    display: grid;
+    width: 50%;
+    font-size: 14px;
+    grid-template-columns: repeat(3, 1fr);
+    padding-right: 190px;
+    padding-left: 30px;
+    align-items: center;
+    column-gap: 0px;
+  }
+  .list h4::before,
+  .list h4::after {
+    content: "";
+    height: 1px;
+    background-color: grey;
+    display: inline;
+  }
+  .list-items {
+    display: flex;
+    justify-content: end;
+    padding-left: 90px;
+  }
+  .list-items ul {
+    display: flex;
+    list-style: none;
+    column-gap: 20px;
+    padding-right: 250px;
+    padding-left: 26px;
+  }
+  .list-items ul li {
+    font-size: 8px;
+    font-weight: 600;
+    color: white;
+    padding-left: 4px;
+    padding: 4px;
+    border-radius: 20px;
+    background: linear-gradient(30deg, red, rgb(0, 0, 0));
+  }
+  .list1 .list-type {
+    margin-left: 20%;
+  }
+  thead,
+  th {
+    font-size: 14px;
+  }
+  table {
+    width: 60%;
+  }
+  table,
+  th,
+  td {
+    padding: 2px;
+    padding-right: 10px;
+    padding-left: -40px;
+  }
+  table,
+  th,
+  td {
+    border-bottom: 2px solid gray;
+    border-spacing: 0;
+  }
+  table,
+  td {
+    font-size: 11px;
+    text-align: center;
+    border-bottom: 2px solid lightgray;
+  }
+  table,
+  tbody {
+    text-align: center;
+  }
+  #btn {
+    padding-bottom: 1000px;
+    font-size: 25px;
+    padding-right: 120px;
+    padding-left: 120px;
+    display: block;
   }
 }
