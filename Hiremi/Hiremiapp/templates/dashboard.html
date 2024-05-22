@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://kit.fontawesome.com/861ce09321.js" crossorigin="anonymous"></script>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
     <title>State Ranking</title>
     <link rel="stylesheet" href="{% static "css/dashboard.css" %}">
 </head>
@@ -14,7 +15,14 @@
         <h1><img class="logo" src="{% static "asset/icon.png" %}" alt=""></h1>
         <p>Super Admin</p>
         <nav>
-            <ul>
+           
+                <input type="checkbox" id="check">
+                <label for="check">
+               <i class="fa-solid fa-bars" id="btn"></i>
+               <i class="fa-regular fa-circle-xmark" id="cancel"></i>
+               </label>
+
+               <ul>
                 <li></li>
                 <li><a href="{% url "dashboard" %}"><i class='bx bx-home-alt'></i> Dashboard</a></li>
                 <li><a href="#"><i class="fa-solid fa-chart-simple"></i> Analytics</a></li>
