@@ -61,11 +61,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for i in user_count %}
+                    {% for i in transactions %}
                     <tr>
                         <td>{{forloop.counter}}</td>
                         <td>********</td>
-                        <td>{{i.full_name}}</td>
+                        <td>{{i.name}}</td>
                         <td>{{i.email}} </td>
                         <td>{{i.phone_number}} </td>
                         <td>{{i.college_name}} </td>
@@ -74,7 +74,7 @@
                         <td>{{i.college_state}} </td>
                         <td>{{i.date_of_birth}} </td>
                         <td>{{i.gender}} </td>
-                        <td><div class="ver2">{{i.payment_status}}</div></td>
+                        <td><div class="ver2">{{i.is_paid}}</div></td>
                         <td><div class="view"><a href="{% url "view_Info3" pk=i.id %}">View</a></div></td>
                     </tr>
                     {% endfor %}

@@ -83,7 +83,7 @@
                 <div class="state">
                     <h3>{{Reject_count}}</h3>
                     <p1>Rejected</p1>
-                    <p><a href="">view All</a> <i class="fa-solid fa-arrow-right"></i></p>
+                    <p><a href="{% url "Mentor_dash3" %}">view All</a> <i class="fa-solid fa-arrow-right"></i></p>
                 </div>
                 <div class="sub-st">
                     <p1>+32%</p1>
@@ -127,9 +127,9 @@
                     <i class="fa-solid fa-file-circle-xmark"></i>
                 </div>
                 <div class="state">
-                    <h3>21</h3>
+                    <h3>{{NotEnroll_count}}</h3>
                     <p1>Non-Enroll</p1>
-                    <p>view All <i class="fa-solid fa-arrow-right"></i></p>
+                    <p><a href="{% url "Mentor_dash4" %}">View All</a> <i class="fa-solid fa-arrow-right"></i></p>
                 </div>
                 <div class="sub-st">
                     <p1>+40%</p1>

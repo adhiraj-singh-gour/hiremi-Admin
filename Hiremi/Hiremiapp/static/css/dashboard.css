@@ -187,7 +187,8 @@ header nav a {
 }
 .sub-st p1{
     text-align: end;
-    color: springgreen;
+    color: rgb(13, 215, 114);
+    /* color: springgreen; */
 }
 .sub-st p{
     font-size: 15px;
@@ -459,3 +460,5 @@ th{
         text-align: center;
     }
 }
+
+

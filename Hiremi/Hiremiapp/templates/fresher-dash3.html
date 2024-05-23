@@ -58,9 +58,9 @@
                         <td>{{forloop.counter}}</td>
                         <td>{{i.uid}}</td>
                         <td>{{i.email}} </td>
-                        <td><div class="ver2">{{i.applied}}</div></td>
+                        <td><div class="ver2">{{i.company_name}}</div></td>
                         <td><div class="ver2">{{i.candidate_status}}</div></td>
-                        <td><div class="view"><a href="{% url "corporate_info2" pk=i.id %}">View</a></div></td>
+                        <td><div class="view"><a href="{% url "fresher_info1" pk=i.id %}">View</a></div></td>
                     </tr>
                     {% endfor %}
                   </tbody>

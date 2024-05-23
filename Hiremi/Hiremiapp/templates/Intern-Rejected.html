@@ -7,7 +7,7 @@
     <script src="https://kit.fontawesome.com/861ce09321.js" crossorigin="anonymous"></script>
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <title>Document</title>
-    <link rel="stylesheet" href="{% static "css/Intern-Rejected.css" %}">
+    <link rel="stylesheet" href="{% static "css/Intern-Selected.css" %}">
 </head>
 <body>
     <header>
@@ -52,178 +52,26 @@
                     <tr>
                         <th>S.NO</th>
                         <th>UTR.No</th>
-                        <th>Name</th>
                         <th>Email</th>
-                        <th>Phone No</th>
-                        <th>Profile <span><></span></th>
-                        <th>Birth Place State <span><></span></th>
-                        <th>College State <span><></span></th>
-                        <th>Passing Year <span><></span></th>
-                        <th>Gender</th>
-                        <th>Status</th>
+                        <th>Internship Profile</th>
+                        <th>Company NAme</th>
                         <th>View</th>
                     </tr>
                 </thead>
                 <tbody>
+                    {% for i in data %}
                     <tr>
-                        <td>1.</td>
-                        <td>**********</td>
-                        <td>Leo</td>
-                        <td>hiremi@gmail.com</td>
-                        <td>84515*****</td>
-                        <td>Frontnd Developer</td>
-                        <td>Birth Place State</td>
-                        <td>College State</td>
-                        <td>2024</td>
-                        <td>Male</td>
-                        <td><div class="ver3">Rejected</div></td>
-                        <td><div class="view">View</div></td>
+                        <td>{{forloop.counter}}</td>
+                        <td>********</td>
+                        <td>{{i.email}}</td>
+                        <td>{{i.email}} </td>
+                        <td>{{i.Internship_profile}} </td>
+                        <td>{{i.company_name}} </td>
+                        <td><div class="ver2">{{i.candidate_status}}</div></td>
+                        <td><div class="view"><a href="{% url "view_Info2" pk=i.id %}">View</a></div></td>
                     </tr>
-                </tbody>
-                <tbody>
-                    <tr>
-                        <td>2.</td>
-                        <td>**********</td>
-                        <td>Leo</td>
-                        <td>hiremi@gmail.com</td>
-                        <td>84515*****</td>
-                        <td>Frontnd Developer</td>
-                        <td>Birth Place State</td>
-                        <td>College State</td>
-                        <td>2024</td>
-                        <td>Male</td>
-                        <td><div class="ver3">Rejected</div></td>
-                        <td><div class="view">View</div></td>
-                    </tr>
-                </tbody>
-                <tbody>
-                    <tr>
-                        <td>3.</td>
-                        <td>**********</td>
-                        <td>Leo</td>
-                        <td>hiremi@gmail.com</td>
-                        <td>84515*****</td>
-                        <td>Frontnd Developer</td>
-                        <td>Birth Place State</td>
-                        <td>College State</td>
-                        <td>2024</td>
-                        <td>Male</td>
-                        <td><div class="ver3">Rejected</div></td>
-                        <td><div class="view">View</div></td>
-                    </tr>
-                </tbody>
-                <tbody>
-                    <tr>
-                        <td>4.</td>
-                        <td>**********</td>
-                        <td>Leo</td>
-                        <td>hiremi@gmail.com</td>
-                        <td>84515*****</td>
-                        <td>Frontnd Developer</td>
-                        <td>Birth Place State</td>
-                        <td>College State</td>
-                        <td>2024</td>
-                        <td>Male</td>
-                        <td><div class="ver3">Rejected</div></td>
-                        <td><div class="view">View</div></td>
-                    </tr>
-                </tbody>
-                <tbody>
-                    <tr>
-                        <td>5.</td>
-                        <td>**********</td>
-                        <td>Leo</td>
-                        <td>hiremi@gmail.com</td>
-                        <td>84515*****</td>
-                        <td>Frontnd Developer</td>
-                        <td>Birth Place State</td>
-                        <td>College State</td>
-                        <td>2024</td>
-                        <td>Male</td>
-                        <td><div class="ver3">Rejected</div></td>
-                        <td><div class="view">View</div></td>
-                    </tr>
-                </tbody>
-                <tbody>
-                    <tr>
-                        <td>6.</td>
-                        <td>**********</td>
-                        <td>Leo</td>
-                        <td>hiremi@gmail.com</td>
-                        <td>84515*****</td>
-                        <td>Frontnd Developer</td>
-                        <td>Birth Place State</td>
-                        <td>College State</td>
-                        <td>2024</td>
-                        <td>Male</td>
-                        <td><div class="ver3">Rejected</div></td>
-                        <td><div class="view">View</div></td>
-                    </tr>
-                </tbody>
-                <tbody>
-                    <tr>
-                        <td>7.</td>
-                        <td>**********</td>
-                        <td>Leo</td>
-                        <td>hiremi@gmail.com</td>
-                        <td>84515*****</td>
-                        <td>Frontnd Developer</td>
-                        <td>Birth Place State</td>
-                        <td>College State</td>
-                        <td>2024</td>
-                        <td>Male</td>
-                        <td><div class="ver3">Rejected</div></td>
-                        <td><div class="view">View</div></td>
-                    </tr>
-                </tbody>
-                <tbody>
-                    <tr>
-                        <td>8.</td>
-                        <td>**********</td>
-                        <td>Leo</td>
-                        <td>hiremi@gmail.com</td>
-                        <td>84515*****</td>
-                        <td>Frontnd Developer</td>
-                        <td>Birth Place State</td>
-                        <td>College State</td>
-                        <td>2024</td>
-                        <td>Male</td>
-                        <td><div class="ver3">Rejected</div></td>
-                        <td><div class="view">View</div></td>
-                    </tr>
-                </tbody>
-                <tbody>
-                    <tr>
-                        <td>9.</td>
-                        <td>**********</td>
-                        <td>Leo</td>
-                        <td>hiremi@gmail.com</td>
-                        <td>84515*****</td>
-                        <td>Frontnd Developer</td>
-                        <td>Birth Place State</td>
-                        <td>College State</td>
-                        <td>2024</td>
-                        <td>Male</td>
-                        <td><div class="ver3">Rejected</div></td>
-                        <td><div class="view">View</div></td>
-                    </tr>
-                </tbody>
-                <tbody>
-                    <tr>
-                        <td>10.</td>
-                        <td>**********</td>
-                        <td>Leo</td>
-                        <td>hiremi@gmail.com</td>
-                        <td>84515*****</td>
-                        <td>Frontnd Developer</td>
-                        <td>Birth Place State</td>
-                        <td>College State</td>
-                        <td>2024</td>
-                        <td>Male</td>
-                        <td><div class="ver3">Rejected</div></td>
-                        <td><div class="view">View</div></td>
-                    </tr>
-                </tbody>
+                    {% endfor %}
+                  </tbody>
             </table>
         </div>
     </div>
