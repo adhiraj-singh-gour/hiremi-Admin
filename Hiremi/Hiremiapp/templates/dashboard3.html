@@ -63,23 +63,36 @@
                 <tbody>
                     {% for i in transactions %}
                     <tr>
-                        <td>{{forloop.counter}}</td>
+                        <td>{{ forloop.counter }}</td>
                         <td>********</td>
-                        <td>{{i.name}}</td>
-                        <td>{{i.email}} </td>
-                        <td>{{i.phone_number}} </td>
-                        <td>{{i.college_name}} </td>
-                        <td>{{i.branch_name}}</td>
-                        <td>{{i.passing_year}}</td> 
-                        <td>{{i.college_state}} </td>
-                        <td>{{i.date_of_birth}} </td>
-                        <td>{{i.gender}} </td>
-                        <td><div class="ver2">{{i.is_paid}}</div></td>
-                        <td><div class="view"><a href="{% url "view_Info3" pk=i.id %}">View</a></div></td>
+                        <td>{{ i.name }}</td>
+                        <td>{{ i.email }}</td>
+                        <td>{{ i.phone_number }}</td>
+                        <td>{{ i.college_name }}</td>
+                        <td>{{ i.branch_name }}</td>
+                        <td>{{ i.passing_year }}</td>
+                        <td>{{ i.college_state }}</td>
+                        <td>{{ i.date_of_birth }}</td>
+                        <td>{{ i.gender }}</td>
+                        <td><div class="ver2">{{ i.is_paid }}</div></td>
+                        <td><div class="view"><a href="{% url 'view_Info3' pk=i.id %}">View</a></div></td>
                     </tr>
                     {% endfor %}
-                  </tbody>
+                </tbody>
             </table>
+            <div class="pagination">
+                {% if transactions.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ transactions.previous_page_number }}">previous</a>
+                {% endif %}
+                <span class="current">
+                    <b> Page {{ transactions.number }} of {{ transactions.paginator.num_pages }}..</b>
+                </span>
+                {% if transactions.has_next %}
+                <a href="?page={{ transactions.next_page_number }}">next</a>
+                <a href="?page={{ transactions.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+            </div>
         </div>
     </div>
 </body>

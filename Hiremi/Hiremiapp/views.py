@@ -54,7 +54,7 @@ def dashboard(request):
 
     if response.status_code == 200:
         data1 = response.json()
-        verified_data = [entry for entry in data1 if entry.get('is_paid') == True]
+        verified_data = [entry for entry in data1 if entry.get('is_paid')]
         payment_count = len(verified_data)
 
     # Update the state counts based on the registrations
@@ -68,9 +68,9 @@ def dashboard(request):
                 state_counts[college_state]['unverified'] += 1
 
     # Count total verified registrations
-    verified_count = sum(1 for registration in data if registration.get('verified') == True)
+    verified_count = sum(1 for registration in data if registration.get('verified'))
     # Count total unverified registrations
-    unverified_count = sum(1 for registration in data if registration.get('verified') == False)
+    unverified_count = sum(1 for registration in data if not registration.get('verified'))
 
     # Count current month's registrations using 'time_end' field
     current_month = datetime.now().month
@@ -81,18 +81,31 @@ def dashboard(request):
            datetime.strptime(registration['time_end'], '%Y-%m-%dT%H:%M:%S.%fZ').month == current_month and
            datetime.strptime(registration['time_end'], '%Y-%m-%dT%H:%M:%S.%fZ').year == current_year
     )
-    print(current_month_registrations)
+
+    current_month = datetime.now().month
+    current_year = datetime.now().year
+    current_month_registrations = sum(
+        1 for registration in data
+        if 'time_end' in registration and
+           datetime.strptime(registration['time_end'], '%Y-%m-%dT%H:%M:%S.%fZ').month == current_month and
+           datetime.strptime(registration['time_end'], '%Y-%m-%dT%H:%M:%S.%fZ').year == current_year
+    )
+
+    # Sort the state_counts dictionary by 'total' in descending order
+    sorted_state_counts = dict(sorted(state_counts.items(), key=lambda item: item[1]['total'], reverse=True))
+
     context = {
         'user_count': user_count,
         'current_month_registrations': current_month_registrations,
         'payment_count': payment_count,
         'unverified_count': unverified_count,
         'verified_count': verified_count,
-        'state_counts': state_counts,
+        'state_counts': sorted_state_counts,
+        'current_month_registrations': current_month_registrations 
     }
-    
+
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-        return JsonResponse({'state_counts': state_counts})
+        return JsonResponse({'state_counts': sorted_state_counts})
     return render(request, 'dashboard.html', context)
 
 # --------------------------- Dashboard1 ----------------------------------
@@ -155,7 +168,8 @@ def dashboard1(request):
         'state_filter': state_filter,
         'birth_state_filter': birth_state_filter,
         'gender_filter': gender_filter,
-        'status_filter': status_filter
+        'status_filter': status_filter,
+        
     }
     return render(request, 'dashboard1.html', context)
 
@@ -164,6 +178,8 @@ def dashboard1(request):
 def view_Info1(request,pk):
      print(pk)
      data=requests.get(f'http://13.127.81.177:8000/api/registers/{pk}/').json()
+
+    #  data2=request.get(f'http://13.127.81.177:8000/verification-details/{pk}')
      return render(request,'Profile-1.html',{'data':data})
 
 
@@ -234,7 +250,7 @@ def dashboard2(request):
         'state_filter': state_filter,
         'birth_state_filter': birth_state_filter,
         'gender_filter': gender_filter,
-        'status_filter': status_filter
+        'status_filter': status_filter,
     }
 
     return render(request, 'dashboard2.html', context)
@@ -248,8 +264,10 @@ def view_Info2(request,pk):
 
 # ------------------------------- Dashboard3 -----------------------------------
 def dashboard3(request):
+    # Fetch user data
     data = requests.get('http://13.127.81.177:8000/api/registers/').json()
     
+    # Fetch transactions data
     url = 'http://13.127.81.177:8000/transactions/'
     response = requests.get(url)
     
@@ -257,9 +275,14 @@ def dashboard3(request):
         data1 = response.json()
         verified_data = [entry for entry in data1 if entry.get('is_paid') == True]
         
+        # Pagination logic
+        paginator = Paginator(verified_data, 10)  # Show 10 transactions per page
+        page_number = request.GET.get('page', 1)  # Get the page number from request
+        page_obj = paginator.get_page(page_number)  # Get the corresponding page
+        
         context = {
             'user_count': data,
-            'transactions': verified_data,
+            'transactions': page_obj,
         }
     else:
         context = {'data': [], 'error': 'Failed to retrieve data from the API', 'status_code': response.status_code}
@@ -275,15 +298,71 @@ def view_Info3(request,pk):
 def dashboard4(request):
     url = 'http://13.127.81.177:8000/api/registers/'
     response = requests.get(url)
-    
+
     if response.status_code == 200:
         data = response.json()
         verified_data = [entry for entry in data if entry.get('verified') == False]
-        context = {'data': verified_data}
-        print(context)
-        
     else:
-        context = {'data': [], 'error': 'Failed to retrieve data from the API'}
+        verified_data = []
+    
+    # Get filters from the request
+    college_filter = request.GET.get('college', '')
+    branch_filter = request.GET.get('branch', '')
+    year_filter = request.GET.get('year', '')
+    state_filter = request.GET.get('state', '')
+    birth_state_filter = request.GET.get('birth_state', '')
+    gender_filter = request.GET.get('gender', '')
+    status_filter = request.GET.get('status', '')
+
+    # Get search criteria from the request
+    name_query = request.GET.get('name', '').lower()
+    email_query = request.GET.get('email', '').lower()
+
+    # Apply filters to the data
+    filtered_data = verified_data
+    if college_filter:
+        filtered_data = [item for item in filtered_data if college_filter.lower() in item.get('college_name', '').lower()]
+    if branch_filter:
+        filtered_data = [item for item in filtered_data if branch_filter.lower() in item.get('branch_name', '').lower()]
+    if year_filter:
+        filtered_data = [item for item in filtered_data if str(year_filter) == str(item.get('passing_year', ''))]
+    if state_filter:
+        filtered_data = [item for item in filtered_data if state_filter.lower() == item.get('college_state', '').lower()]
+    if birth_state_filter:
+        filtered_data = [item for item in filtered_data if birth_state_filter.lower() == item.get('birth_state', '').lower()]
+    if gender_filter:
+        filtered_data = [item for item in filtered_data if gender_filter.lower() == item.get('gender', '').lower()]
+    if status_filter:
+        filtered_data = [item for item in filtered_data if status_filter.lower() in item.get('status', '').lower()]
+
+    if name_query:
+        filtered_data = [item for item in filtered_data if name_query in item.get('full_name', '').lower()]
+    if email_query:
+        filtered_data = [item for item in filtered_data if email_query in item.get('email', '').lower()]
+
+    # Set up pagination
+    page = request.GET.get('page', 1)
+    paginator = Paginator(filtered_data, 10)  # Show 10 items per page
+
+    try:
+        paginated_data = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        paginated_data = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g., 9999), deliver last page of results.
+        paginated_data = paginator.page(paginator.num_pages)
+
+    context = {
+        'data': paginated_data,
+        'college_filter': college_filter,
+        'branch_filter': branch_filter,
+        'year_filter': year_filter,
+        'state_filter': state_filter,
+        'birth_state_filter': birth_state_filter,
+        'gender_filter': gender_filter,
+        'status_filter': status_filter
+    }
 
     return render(request, 'dashboard4.html', context)
 

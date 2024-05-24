@@ -83,7 +83,7 @@
                     <p><a href="{% url "dashboard2" %}">view All</a> <i class="fa-solid fa-arrow-right"></i></p>
                 </div>
                 <div class="sub-st">
-                    <p1>+32%</p1>
+                    <p1>+{{current_month_registrations}}%</p1>
                     <p>This month</p>
                 </div>
             </div>
@@ -123,17 +123,11 @@
             <h4 class="title">State Ranking</h4>
         </div><br>
         <div class="list-items">
-              <ul>
-                <li>Download App</li>
-                <li>Accounts Verified</li>
-                <li>Non-Verified Accounts</li>
+            <ul>
+                <li id="sort-total" onclick="sortTable('total')">Download App</li>
+                <li id="sort-verified" onclick="sortTable('verified')">Accounts Verified</li>
+                <li id="sort-unverified" onclick="sortTable('unverified')">Non-Verified Accounts</li>
             </ul>
-
-            {% comment %} <div>
-                <button onclick="sortStates('total')">Sort by Total</button>
-                <button onclick="sortStates('verified')">Sort by Verified</button>
-                <button onclick="sortStates('unverified')">Sort by Unverified</button>
-            </div> {% endcomment %}
         </div><br><br>
         <div class="list1">
             <div class="list-type">
@@ -147,21 +141,57 @@
                             <th>Non-Verified Account</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="state-table-body">
                         {% for state, counts in state_counts.items %}
                         <tr>
                             <td>{{ forloop.counter }}</td>
                             <td>{{ state }}</td>
-                            <td>{{ counts.total }}</td>
-                            <td>{{ counts.verified }}</td>
-                            <td>{{ counts.unverified }}</td>
+                            <td class="total">{{ counts.total }}</td>
+                            <td class="verified">{{ counts.verified }}</td>
+                            <td class="unverified">{{ counts.unverified }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
             </div>
         </div>
+
+         <script>
+            let sortOrder = {
+                'total': 'desc',
+                'verified': 'desc',
+                'unverified': 'desc'
+            };
+            
+            function sortTable(key) {
+                const tableBody = document.getElementById('state-table-body');
+                const rows = Array.from(tableBody.getElementsByTagName('tr'));
+            
+                // Determine the column index based on the key
+                const columnIndex = key === 'total' ? 2 : key === 'verified' ? 3 : 4;
+            
+                // Sort rows based on the specified column
+                rows.sort((a, b) => {
+                    const aValue = parseInt(a.getElementsByTagName('td')[columnIndex].innerText);
+                    const bValue = parseInt(b.getElementsByTagName('td')[columnIndex].innerText);
+            
+                    if (sortOrder[key] === 'desc') {
+                        return bValue - aValue;
+                    } else {
+                        return aValue - bValue;
+                    }
+                });
+            
+                // Toggle the sort order for the next click
+                sortOrder[key] = sortOrder[key] === 'desc' ? 'asc' : 'desc';
+            
+                // Clear and re-append the sorted rows
+                tableBody.innerHTML = '';
+                rows.forEach(row => tableBody.appendChild(row));
+            }
+            </script> 
+
+           
     </div>
-    
 </body>
 </html>
