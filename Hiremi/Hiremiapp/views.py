@@ -169,6 +169,8 @@ def dashboard1(request):
         'birth_state_filter': birth_state_filter,
         'gender_filter': gender_filter,
         'status_filter': status_filter,
+        'name_query': name_query,
+        'email_query': email_query,
         
     }
     return render(request, 'dashboard1.html', context)
@@ -222,7 +224,7 @@ def dashboard2(request):
     if gender_filter:
         filtered_data = [item for item in filtered_data if gender_filter.lower() == item.get('gender', '').lower()]
     if status_filter:
-        filtered_data = [item for item in filtered_data if status_filter.lower() in item.get('status', '').lower()]
+        data = [item for item in data if isinstance(item.get('verified'), str) and status_filter.lower() in [status.strip().lower() for status in item.get('verified', '').split(',')]]
 
     if name_query:
         filtered_data = [item for item in filtered_data if name_query in item.get('full_name', '').lower()]
@@ -275,6 +277,7 @@ def dashboard3(request):
         data1 = response.json()
         verified_data = [entry for entry in data1 if entry.get('is_paid') == True]
         
+
         # Pagination logic
         paginator = Paginator(verified_data, 10)  # Show 10 transactions per page
         page_number = request.GET.get('page', 1)  # Get the page number from request
@@ -283,7 +286,7 @@ def dashboard3(request):
         context = {
             'user_count': data,
             'transactions': page_obj,
-        }
+            }
     else:
         context = {'data': [], 'error': 'Failed to retrieve data from the API', 'status_code': response.status_code}
 
