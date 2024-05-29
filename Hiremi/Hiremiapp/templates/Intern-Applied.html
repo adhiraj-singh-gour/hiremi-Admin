@@ -51,32 +51,22 @@
                 <thead>
                     <tr>
                         <th>S.NO</th>
-                        <th>UTR.No</th>
-                        <th>Name</th>
                         <th>Email</th>
-                        <th>Phone No</th>
-                        <th>Profile <span><></span></th>
-                        <th>Birth Place State <span><></span></th>
-                        <th>College State <span><></span></th>
-                        <th>Passing Year <span><></span></th>
-                        <th>Gender</th>
+                        <th>Internship profile</th>
+                        <th>Company Name <span><></span></th>
                         <th>Status</th>
                         <th>View</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for i in registers_data %}
+                    {% for i in internship_profiles %}
                     <tr>
                         <td>{{forloop.counter}}</td>
                         <td>********</td>
-                        <td>{{i.full_name}}</td>
                         <td>{{i.email}} </td>
-                        <td>{{i.phone_number}} </td>
-                        <td>{{internship_profiles}} </td>
-                        <td>{{i.date_of_birth}} </td>
-                        <td>{{i.college_state}} </td>
-                        <td>{{i.passing_year}}</td> 
-                        <td>{{i.gender}} </td>
+                        <td>{{i.Internship_profile}} </td>
+                        {% comment %} <td>{{internship_profiles}} </td> {% endcomment %}
+                        <td>{{i.company_name}} </td>
                         <td><div class="ver2">{{i.candidate_status}}</div></td>
                         <td><div class="view"><a href="{% url "intern_info" pk=i.id %}">View</a></div></td>
                     </tr>

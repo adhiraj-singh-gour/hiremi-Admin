@@ -162,3 +162,16 @@ p {
         height: 40px;
     }
 }
+
+
+
+/* message */
+
+#msg{
+  color: black;
+  font-size: 35px;
+  text-align: center;
+  text-decoration: none;
+  
+
+}

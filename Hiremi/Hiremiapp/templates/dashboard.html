@@ -1,4 +1,6 @@
+
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,7 +21,7 @@
     <link rel="stylesheet" href="{% static "css/dashboard.css" %}">
 </head>
 <body>
-
+    
     <header>
         <h1><img class="logo" src="{% static "asset/icon.png" %}" alt=""></h1>
         <p>Super Admin</p>   
@@ -191,6 +193,17 @@
                 tableBody.innerHTML = '';
                 rows.forEach(row => tableBody.appendChild(row));
             }
+
+
+            
+                document.addEventListener('DOMContentLoaded', function() {
+                    {% if messages %}
+                        {% for message in messages %}
+                            alert("{{ message }}");
+                        {% endfor %}
+                    {% endif %}
+                });
+    
             </script> 
 
            

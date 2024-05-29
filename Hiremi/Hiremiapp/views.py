@@ -20,7 +20,7 @@ def superuser_login(request):
         password = request.POST.get('password')
         user = authenticate(request, username=username, password=password)
         if user is not None and user.is_superuser:
-            # login(request, user)
+            messages.success(request, "Login successful.")
             return redirect('dashboard')  # Redirect to your desired URL
         else:
             messages.error(request, 'Invalid username or password for superuser.')
@@ -176,7 +176,6 @@ def dashboard1(request):
     return render(request, 'dashboard1.html', context)
 
 
-
 def view_Info1(request,pk):
      print(pk)
      data=requests.get(f'http://13.127.81.177:8000/api/registers/{pk}/').json()
@@ -261,7 +260,6 @@ def view_Info2(request,pk):
     print(pk)
     data=requests.get(f'http://13.127.81.177:8000/api/registers/{pk}/').json()
     return render(request,'Profile-1.html',{'data':data})
-
 
 
 # ------------------------------- Dashboard3 -----------------------------------
@@ -387,7 +385,7 @@ def accept(request, pk):
         return redirect('view_Info1',pk)
     else:
         return JsonResponse({'error': 'Failed to update user verification status'}, status=response.status_code)
-    
+
 def reject(request, pk):
     update_endpoint = f'http://13.127.81.177:8000/api/registers/{pk}/'
 
@@ -399,10 +397,6 @@ def reject(request, pk):
         return redirect('view_Info1',pk)
     else:
         return JsonResponse({'error': 'Failed to update user verification status'}, status=response.status_code)
-
-
-
-
 
 
 # --------------------------------------internship section--------------------------------------------
@@ -459,23 +453,21 @@ def intern_applied(request):
     internship_field = internship_data[1].get('Internship_profile')
 
     internship_response = requests.get('http://13.127.81.177:8000/api/internship-applications/')
-    
+
     # Parse the JSON response
     internship_data = internship_response.json()
-    
+
     # Extract the Internship_profile from each internship entry
     internship_profiles = [internship.get('Internship_profile') for internship in internship_data]
+    print(internship_data, internship_profiles)
 
-    
-    registers_response = requests.get('http://13.127.81.177:8000/api/registers/')
-    registers_data = registers_response.json()
-    
+    # registers_response = requests.get('http://13.127.81.177:8000/api/registers/')
+    # registers_data = registers_response.json()
+
     context = {
-        'internship_profiles': internship_profiles,
-        'registers_data': registers_data,
+        "internship_profiles": internship_data,
     }
     return render(request,'Intern-Applied.html',context)
-
 
 
 def intern_info(request,pk):
@@ -498,7 +490,7 @@ def intern_dash2(request):
     else:
         context = {'data': [], 'error': 'Failed to retrieve data from the API'}
     return render(request,'Intern-Selected.html',context) 
-   
+
 
 def intern_dash3(request):
     url = 'http://13.127.81.177:8000/api/internship-applications/'
@@ -516,8 +508,6 @@ def intern_dash4(request):
     pass
 
 
-
-
 def Select_intern(request, pk):
     update_endpoint = f'http://13.127.81.177:8000/api/internship-applications/{pk}/'
 
@@ -531,7 +521,7 @@ def Select_intern(request, pk):
         return redirect('intern_info', pk)
     else:
         return JsonResponse({'error': 'Failed to update user verification status'}, status=response.status_code)
-    
+
 
 def Reject_intern(request, pk):
     update_endpoint = f'http://13.127.81.177:8000/api/internship-applications/{pk}/'
@@ -547,7 +537,6 @@ def Reject_intern(request, pk):
     else:
         return JsonResponse({'error': 'Failed to update user verification status'}, status=response.status_code)
 # ----------------------------------------------------------------------------------------------------
-
 
 
 # ---------------------------------Mantoreship section-------------------------------------------------
@@ -626,7 +615,7 @@ def Select(request, pk):
         return redirect('mentor_info1', pk)
     else:
         return JsonResponse({'error': 'Failed to update user verification status'}, status=response.status_code)
-    
+
 
 def Reject(request, pk):
     update_endpoint = f'http://13.127.81.177:8000/api/mentorship/{pk}/'
@@ -641,7 +630,6 @@ def Reject(request, pk):
         return redirect('mentor_info1', pk)
     else:
         return JsonResponse({'error': 'Failed to update user verification status'}, status=response.status_code)
-
 
 
 def Mentor_dash2(request):
@@ -694,9 +682,7 @@ def Mentor_dash4(request):
     return render(request, 'Mentor-dash4.html', context)
 
 
-
 # -----------------------------------------------------------------------------------------------------
-
 
 
 # ------------------------------------- Corporate training Section ------------------------------------------------
@@ -790,7 +776,7 @@ def corporate_dash3(request):
         context = {'error': 'Failed to retrieve data from the API'}
         print(context)
     return render(request,'corporate-dash3.html',context)
- 
+
 def corporate_info3(request,pk):
     data=requests.get(f'http://13.127.81.177:8000/api/corporatetraining/{pk}/').json()
     return render(request,'corporate-pf-1.html',{'data':data})
@@ -809,7 +795,7 @@ def Corporate_Select(request, pk):
         return redirect('corporate_info1', pk)
     else:
         return JsonResponse({'error': 'Failed to update user verification status'}, status=response.status_code)
-    
+
 
 def Corporate_Reject(request, pk):
     update_endpoint = f'http://13.127.81.177:8000/api/corporatetraining/{pk}/'
@@ -827,7 +813,6 @@ def Corporate_Reject(request, pk):
 
 
 # ----------------------------------------------------------------------------------------------------------
-
 
 
 # -------------------------------------fresher section--------------------------------------------------
@@ -933,7 +918,6 @@ def fresher_info4(request,pk):
     return render(request,'fresher-pf-1.html',{'data':data})
 
 
-
 def fresher_Select(request, pk):
     update_endpoint = f'http://13.127.81.177:8000/api/job-applications/{pk}/'
 
@@ -947,7 +931,7 @@ def fresher_Select(request, pk):
         return redirect('fresher_info1', pk)
     else:
         return JsonResponse({'error': 'Failed to update user verification status'}, status=response.status_code)
-    
+
 
 def fresher_Reject(request, pk):
     update_endpoint = f'http://13.127.81.177:8000/api/job-applications/{pk}/'
