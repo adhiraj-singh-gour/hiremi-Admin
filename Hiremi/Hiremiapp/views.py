@@ -292,7 +292,7 @@ def dashboard3(request):
 
 def view_Info3(request,pk):
     print(pk)
-    data=requests.get(f'http://13.127.81.177:8000/api/registers/{pk}/').json()
+    data=requests.get(f'http://13.127.81.177:8000/transactions/{pk}/').json()
     return render(request,'profile-2.html',{'data':data})
 
 # -------------------------------- Dashboard4 ---------------------------------------
@@ -448,27 +448,38 @@ def internship(request):
 
 
 def intern_applied(request):
+    # Fetch internship applications
     internship_response = requests.get('http://13.127.81.177:8000/api/internship-applications/')
     internship_data = internship_response.json()
-    internship_field = internship_data[1].get('Internship_profile')
 
-    internship_response = requests.get('http://13.127.81.177:8000/api/internship-applications/')
+    # Read filter parameters from the request
+    college_filter = request.GET.get('college')
+    branch_filter = request.GET.get('branch')
+    year_filter = request.GET.get('year')
 
-    # Parse the JSON response
-    internship_data = internship_response.json()
+    # Apply filters to the data
+    filtered_data = internship_data
+    if college_filter:
+        filtered_data = [item for item in filtered_data if college_filter.lower() in item.get('college_name', '').lower()]
+    if branch_filter:
+        filtered_data = [item for item in filtered_data if branch_filter.lower() in item.get('branch_name', '').lower()]
+    if year_filter:
+        filtered_data = [item for item in filtered_data if year_filter == str(item.get('year'))]
 
-    # Extract the Internship_profile from each internship entry
-    internship_profiles = [internship.get('Internship_profile') for internship in internship_data]
-    print(internship_data, internship_profiles)
-
-    # registers_response = requests.get('http://13.127.81.177:8000/api/registers/')
-    # registers_data = registers_response.json()
+    # Set up pagination
+    paginator = Paginator(filtered_data, 10)  # Show 10 transactions per page
+    page_number = request.GET.get('page', 1)  # Get the page number from request
+    page_obj = paginator.get_page(page_number) 
 
     context = {
-        "internship_profiles": internship_data,
+        "internship_profiles": page_obj,
+        "college_filter": college_filter or '',
+        "branch_filter": branch_filter or '',
+        "year_filter": year_filter or '',
+        "paginator": paginator,
+        "page_obj": page_obj,
     }
-    return render(request,'Intern-Applied.html',context)
-
+    return render(request, 'Intern-Applied.html', context)
 
 def intern_info(request,pk):
     print(pk)

@@ -49,6 +49,23 @@
         <div class="list-type">
             <table>
                 <thead>
+                    {% comment %} <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th>
+                            <input type="text" name="college" class="form-control" placeholder="College Name" value="{{ college_filter }}">
+                        </th>
+                        <th>
+                            <input type="text" name="branch" class="form-control" placeholder="Branch Name" value="{{ branch_filter }}">
+                        </th>
+                        <th>
+                            <input type="text" name="year" class="form-control" placeholder="Year" value="{{ year_filter }}">
+                        </th>
+                        <th>
+                            <button type="submit" class="btn btn-primary btn-block">Filter</button>
+                        </th>
+                    </tr> {% endcomment %}
                     <tr>
                         <th>S.NO</th>
                         <th>Email</th>
@@ -62,7 +79,6 @@
                     {% for i in internship_profiles %}
                     <tr>
                         <td>{{forloop.counter}}</td>
-                        <td>********</td>
                         <td>{{i.email}} </td>
                         <td>{{i.Internship_profile}} </td>
                         {% comment %} <td>{{internship_profiles}} </td> {% endcomment %}
@@ -73,8 +89,23 @@
                     {% endfor %}
                   </tbody>
             </table>
+            <div class="pagination">
+                {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ transactions.previous_page_number }}">previous</a>
+                {% endif %}
+                <span class="current">
+                    <b> Page {{ transactions.number }} of {{ transactions.paginator.num_pages }}..</b>
+                </span>
+                {% if page_obj.has_next %}
+                <a href="?page={{ transactions.next_page_number }}">next</a>
+                <a href="?page={{ transactions.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </div>
         </div>
     </div>
-    
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
 </body>
 </html>

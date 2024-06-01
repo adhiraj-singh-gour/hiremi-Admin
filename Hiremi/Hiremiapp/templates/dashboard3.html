@@ -8,6 +8,11 @@
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <title>Document</title>
     <link rel="stylesheet" href="{% static "css/dashboard1.css" %}">
+    <style>
+        .new-transaction {
+            background-color: #ffeb3b; /* Yellow background for new transactions */
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -56,16 +61,16 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for i in transactions %}
-                    <tr>
+                    {% for transaction in transactions %}
+                    <tr class="{% if transaction.is_new %}new-transaction{% endif %}">
                         <td>{{ forloop.counter }}</td>
-                        <td>{{ i.name }}</td>
-                        <td>{{ i.amount }}</td>
-                        <td>{{ i.txn_token }}</td>
-                        <td>{{ i.order_id }}</td>
-                        <td>{{ i.created_at }}</td>
-                        <td><div class="ver2">{{ i.is_paid }}</div></td>
-                        <td><div class="view"><a href="{% url 'view_Info3' pk=i.id %}">View</a></div></td>
+                        <td>{{ transaction.name }}</td>
+                        <td>{{ transaction.amount }}</td>
+                        <td>{{ transaction.txn_token }}</td>
+                        <td>{{ transaction.order_id }}</td>
+                        <td>{{ transaction.created_at }}</td>
+                        <td><div class="ver2">{{ transaction.is_paid }}</div></td>
+                        <td><div class="view"><a href="{% url 'view_Info3' pk=transaction.id %}">View</a></div></td>
                     </tr>
                     {% endfor %}
                 </tbody>
@@ -81,7 +86,7 @@
                 {% if transactions.has_next %}
                 <a href="?page={{ transactions.next_page_number }}">next</a>
                 <a href="?page={{ transactions.paginator.num_pages }}">last &raquo;</a>
-            {% endif %}
+                {% endif %}
             </div>
         </div>
     </div>
